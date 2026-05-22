@@ -8,34 +8,33 @@ metadata:
 
 # holy-grail
 
-The one-shot upgrade-anything pipeline. The user points at something and says make it better. You produce the best possible version: brief, plan, build, review by a panel of experts, improve until world-class, ship, and learn from the run. Act as the genuine world-class expert in every field the target touches. Never rush.
+The fire-and-forget upgrade-anything pipeline. The user points at something, answers one focus question, and walks away. You upgrade, add features, test, review, and write, repeat that cycle 3 more times, do a final check, and end at a PR, with no further prompting. Act as a genuine expert in every field the target touches. Never rush.
 
 This skill conducts other skills. It does not reimplement them. When an engine skill is installed you invoke it; when it is absent you use the built-in fallback in `references/fallbacks.md`. Either way the discipline holds.
 
 ## Operating Principles
 
-- Act as the world-class expert in every field the target touches.
+- Act as a genuine expert in every field the target touches. Aim for the strongest version you can build; do not assert you reached it.
 - State the why before the how. No work without strategic intent.
 - Lead with capability, not polish. To upgrade something is first to ask what NET-NEW features and capabilities would make it dramatically more valuable, then build the high-value ones. Design, copy, and polish support that, they are not the headline. Feature improvements are the point of an upgrade.
 - Measure the starting point. Prove the upgrade against a baseline, not a vibe.
 - Never rush. Sequential phases, one task at a time, re-check after every change.
-- Improve, do not just fix. Each loop raises the ceiling: re-spec, re-plan, rebuild, retest until it cannot be meaningfully bettered, not just until it passes.
-- A panel of expert agents reviews everything. Nothing ships unreviewed.
+- Improve, do not just fix. Each cycle raises the ceiling: re-spec, re-plan, rebuild, retest. Run the full cadence (main pass + 3 rounds + final check), not just until it passes.
+- A panel of expert agents reviews everything. Nothing reaches the PR unreviewed.
 - Do the complete thing, not the minimal thing, but right-size to the target. No full ceremony on a typo.
 - Self-learn every run. Read the playbook first, write to it last. Learn which reviewers earn their keep.
-- One human gate only, at Phase 6. Auto-decide other forks via `references/auto-decisions.md`.
-- Anti-AI-slop. No em-dashes anywhere in output.
+- Fire-and-forget. After the one up-front focus question there is no further prompting. Auto-decide forks via `references/auto-decisions.md`; the run ends at a PR, never a blocking gate.
+- Anti-AI-slop. No em-dashes anywhere in output. Report results honestly; label self-assessed scores as self-assessed.
 
 ```
-CORE INVARIANTS  (the self-learning retro must never weaken or remove these)
-- The Phase 6 human gate always happens before shipping, merging, or PR.
-- Every change is reviewed before ship (second opinion + expert panel).
+CORE INVARIANTS  (safety floors; the self-learning retro must never weaken or remove these)
+- Never auto-merge and never auto-deploy. The run ends at a PR; the human merges asynchronously.
+- Every change is reviewed before the PR (second opinion + expert panel).
 - No completion claim without fresh verification evidence (baseline before claim).
-- One-shot autonomy: auto-decide mechanical/taste forks; auto-build feature improvements that clear the value-vs-effort bar and are reversible; park only user-challenge forks (new product direction, real spend, pricing, legal, irreversible) for the gate.
-- Anti-AI-slop, no em-dashes.
-- Never auto-merge or auto-deploy without explicit approval.
+- Anti-AI-slop, no em-dashes. Report honestly; never present a self-assessed score as objective.
 Learned additions append BELOW the pipeline, never edit this block.
 ```
+(The auto-build authorization and the fork-handling rules live in the Autonomy section below, not in this locked block. They are capability decisions, not safety floors.)
 
 ## Setup
 
@@ -75,7 +74,7 @@ Act as the domain expert. Write `.holy-grail/<slug>/01-brief.md`:
 
 Then:
 
-- **Benchmark to best-in-class**: name the world-class reference for this target (via `Skill(competitor-intelligence)` or `Skill(benchmark)` if present, else domain knowledge) so "the best it can be" has a concrete ceiling.
+- **Benchmark**: name the strongest reference example for this target (via `Skill(competitor-intelligence)` or `Skill(benchmark)` if present, else domain knowledge) so the target has a concrete ceiling to aim at.
 - **Instantiate the panel**: from `references/expert-panel.md`, pull the personas this target needs. If a needed field has no persona, synthesize one and append it to the roster.
 - **Self-critique** the brief against its own rubric.
 - **Second opinion**: `Skill(codex)` consult mode, or the fallback internal review, asking what is missing, wrong, or under-ambitious.
@@ -95,7 +94,7 @@ Then:
 - For UI or design targets, use the design and asset toolchain in `references/auto-decisions.md` section 3.5. If no `DESIGN.md` exists, establish the system first (`Skill(design-consultation)` or infer one). Explore variants (`Skill(design-shotgun)` if present, else 2 to 3 distinct directions) and converge on the strongest. Build distinctive UI with `Skill(frontend-design)` when present. Generate any needed visual assets with `Skill(nano-banana-pro)` or `Skill(higgsfield-generate)`. Pull designs via `Skill(figma)` if the input was Figma. Do not ship the first idea, and never ship a generic AI-slop UI.
 - For code: `Skill(superpowers:using-git-worktrees)` to isolate, then `Skill(superpowers:subagent-driven-development)` with `superpowers:test-driven-development`. If superpowers is absent, use the fallback subagent build loop. Fresh subagent per task, two-stage spec then quality review per task, test first.
 - For non-code: produce the artifact via focused per-section subagents, each reviewed.
-- One task at a time. Never batch. Re-check after every change.
+- Within a single feature, one task at a time, re-check after every change. Independent features MAY be built by parallel subagents, but only on strictly disjoint file sets; serialize schema and migration-journal edits to one agent or inline (concurrent schema edits conflict).
 
 ### Phase 4 - Verify and Expert-Panel Review
 
@@ -106,28 +105,26 @@ Then:
 - **Dispatch the expert panel** (parallel subagents per `references/expert-panel.md`) against the brief's success criteria, including the red-team / abuse-case persona for anything touching auth, payments, user data, or input. Each scores its dimensions 0 to 10. The panel is complementary to the code review above: when superpowers and codex have already reviewed the code, the panel skips a duplicate correctness pass and contributes only the design, conversion, product, performance, accessibility, domain, and red-team lenses plus the scoring. If superpowers and codex are both absent, the panel's Staff Engineer owns code correctness. For non-code targets the panel is the whole review.
 - Log every finding to `.holy-grail/<slug>/findings.md` tagged with the reviewer that raised it. This feeds Phase 7.
 
-### Phase 5 - Improve Loop (re-spec, rebuild, retest until it cannot be bettered)
+### Phase 5 - Improve Loop (cadence: main pass + 3 rounds + final check)
 
-This is an improvement engine, not a fix-until-green loop. Each round does two kinds of work:
+An improvement engine, not a fix-until-green loop. The default cadence is the main build pass (Phase 3) plus 3 improvement rounds plus a distinct final check. Run the full cadence; the user wants dramatic, not marginal, improvement. Each round does two kinds of work:
 
 1. **Fix** every defect: codex P1s, panel Critical and Important findings, QA bugs. Re-verify after each.
-2. **Elevate (re-spec yourself).** The Product/Feature Strategist and the panel name the highest-leverage change, biased toward NET-NEW features and capabilities, then design and polish. If it clears the value-vs-effort bar (it moves a real success metric, it is reversible, it is not gold-plating), then **fold it back into the brief and spec, re-plan that increment, build it test-first, and re-verify.** This includes building net-new feature improvements, not just polishing existing dimensions. Park only genuinely large or strategic expansions (new product direction, pricing, spend, legal, irreversible) for the gate.
+2. **Elevate.** The Product/Feature Strategist and the panel name the highest-leverage change, biased toward NET-NEW features and capabilities, then design and polish. If it is an in-scope feature improvement (see `references/auto-decisions.md` section 4 for the build-vs-park rule), fold it into the brief, re-plan that increment, build it test-first, and re-verify. Adding new features across rounds is expected; it is the point.
 
 Then re-run the reviewers whose area changed, and loop: improve, rebuild, retest.
 
-**Stop only when BOTH hold:**
-- **Correct:** second opinion PASS with no open P1, tests and build green, QA green for UI, every brief success criterion met against the baseline.
-- **Excellent:** every activated panel dimension is at least 9 out of 10, AND the panel cannot name a further improvement that clears the value-vs-effort bar. That is the excellence plateau, not "good enough".
+A round stops EARLY (before the 3 are used) only when all of: second opinion PASS with no open P1, tests and build green, QA green for UI, every brief success criterion met against the baseline, every activated panel dimension at least 9 out of 10 (self-assessed), AND the last round's additions moved no north-star metric. Otherwise run the full cadence. The final check is a fresh verification pass (tests, build, second opinion) with no new feature work. Convergence is guaranteed by the fixed cadence, the subagent budget, and the blast-radius cap, not by limiting features per round. Park only user-challenge forks for the report (see auto-decisions section 4).
 
-Keep going while the panel keeps finding worthwhile improvements. Stop when more work would not meaningfully move the outcome (diminishing returns), or at the safety cap of 3 rounds. Never loop forever and never silently ship a missed bar: at the cap, record the specific gap and the best remaining option for the Phase 6 gate. Ordinary feature improvements that clear the value bar are built, not parked. Only genuinely large or strategic expansions (new product direction, pricing, spend, legal, irreversible) park for the gate.
+### Phase 6 - Finish (PR, not a blocking gate)
 
-### Phase 6 - Final Gate and Finish
+Fire-and-forget: do NOT block on approval. The user has left. Finish the run and let them review the PR when they return.
 
-1. Write `.holy-grail/<slug>/report.md`: what changed and why, before/after against the baseline, evidence (test output, second-opinion verdict, panel scores, screenshots, north-star delta), the **feature improvements built this run**, a **ranked list of the larger feature and strategy ideas parked for your greenlight** (so you can pick the next run), the taste forks you auto-decided so the user can override, and any remaining gaps.
-2. Present the report and use `AskUserQuestion` to get approval to ship. This is the only stop.
-3. Optionally notify via the Telegram reply tool when the gate is reached.
-4. On approval: for code, `Skill(superpowers:finishing-a-development-branch)`, then commit, push, and open a PR (always push, never ask). For non-code, deliver the artifact.
-5. **Prove it on the real surface**: for any live target, re-open the URL or app after deploy and capture before/after screenshots on every surface it touches. Done means verified on the live surface, not green tests.
+1. Write `.holy-grail/<slug>/report.md` in two clearly separated sections. **Objective signals:** test output, second-opinion (codex or red-team) PASS/FAIL, QA health, the real north-star metric before/after. **Self-assessed (panel) scores:** the 0 to 10 dimension scores, labeled as the model's own assessment, not an external grade. Plus: the feature improvements built this run, a ranked list of the larger feature and strategy ideas parked for the user's greenlight (next run), the forks auto-decided, the run ledger (phases, subagents, rounds, codex passes), and any remaining gaps.
+2. Persist `.holy-grail/<slug>/state.md` and append the predicted-vs-actual delta to `outcomes.md` (see `references/run-state.md`).
+3. For code: `Skill(superpowers:finishing-a-development-branch)`, then commit, push the branch, and open a PR with the report. Never auto-merge, never auto-deploy. For non-code: write the artifact and the report.
+4. Notify the user via the Telegram reply tool with a one-line summary + the PR link, then exit cleanly. No `AskUserQuestion`.
+5. **Proof split.** In-run proof is local or preview only: a screenshot of the dev/preview build. Production proof (the live deployed surface) happens after the human merges and the deploy completes, so it is async and out of this run; for mobile it may be impossible in-loop. The report states which kind of proof was achieved, and never claims production-verified before a merge.
 
 ### Phase 7 - Self-Learning Retro
 
@@ -139,9 +136,16 @@ Dispatch a retro subagent that reads `findings.md` and the brief, then:
 - Routes each lesson by asking "does this generalize beyond this project?" Universal lessons (generalizable process or technique) merge-before-append into the universal playbook `references/playbook.md`; project-specific lessons (tied to this repo's stack, conventions, or quirks) go to the target repo's `.holy-grail/project.md`. Never put a project-specific lesson in the universal playbook. For a universal lesson that has now recurred 3 or more times, or is structural, promote it into the "Learned additions" section below and log it in the playbook Changelog. Never touch the Core Invariants. Decay stale low-confidence lessons.
 - If ruflo is present, also `mcp__ruflo__memory_store` (project namespace, and global if it generalizes) and update the auto-memory index.
 
-## Autonomy and the single gate
+## Autonomy (fire-and-forget)
 
-Run autonomous with exactly one up-front question and one gate. The up-front question is the Phase 0 focus question (features / design / engineering health / all). After that, override the intermediate approval gates inside brainstorming and writing-plans. Auto-decide mechanical and taste forks via the 6 principles in `references/auto-decisions.md`, logging each in `state.md`. Auto-build feature improvements that clear the value-vs-effort bar and are reversible. Park only user-challenge forks (new product direction, real spend, pricing or positioning, legal or compliance, irreversible) for the Phase 6 gate.
+The only interactive prompt is the one up-front focus question (Phase 0 step 5), and it is skippable when the user already named the focus in the command. After that, NO prompting: no mid-run questions, no blocking approval gate. The user runs it and leaves.
+
+- Override the intermediate approval gates inside brainstorming and writing-plans.
+- Auto-decide mechanical and taste forks via the 6 principles in `references/auto-decisions.md`, logging each in `state.md`.
+- Auto-build feature improvements that clear the value-vs-effort bar and are reversible (see auto-decisions section 4 for the single build-vs-park definition).
+- A user-challenge fork (new product direction, real spend, pricing or positioning, legal or compliance, irreversible) is NOT built: pick the safe default, log it, and surface it in the Phase 6 report for the user's call. It never blocks the run.
+- Persist `.holy-grail/<slug>/state.md` at the end of every phase so the run is resumable and killable (see `references/run-state.md`).
+- The run ends at a PR (Phase 6). The human merges asynchronously. Never auto-merge or auto-deploy.
 
 ## Red flags (rationalizations that mean stop)
 
@@ -159,7 +163,8 @@ Run autonomous with exactly one up-front question and one gate. The up-front que
 
 - `references/auto-decisions.md` - at Phase 0 for ingestion, routing, intensity, capability map; mid-run for the 6 principles and the quality bars.
 - `references/expert-panel.md` - at Phase 1 to instantiate the panel, at Phases 2 and 4 to dispatch it.
-- `references/playbook.md` - at Phase 0 to load lessons, at Phase 7 to append them.
+- `references/playbook.md` - at Phase 0 to load lessons (trigger-driven), at Phase 7 to merge or append them.
+- `references/run-state.md` - the state.md and outcomes schema and the finish protocol; at Phase 0 to resume, at the end of each phase to persist, at Phase 6 to finish.
 - `references/fallbacks.md` - only for steps where `capabilities.json` shows the native skill is absent.
 
 ---
