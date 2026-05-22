@@ -34,9 +34,11 @@ bash install.sh
 As a shareable plugin, inside Claude Code:
 
 ```
-/plugin marketplace add <git-url-of-this-repo>
+/plugin marketplace add ryanspiteri/holy-grail
 /plugin install holy-grail
 ```
+
+The repo is private. To let a coworker install it, add them as a collaborator on the GitHub repo first, then they run the two commands above.
 
 Then start a new session and say: `upgrade <something>`.
 
