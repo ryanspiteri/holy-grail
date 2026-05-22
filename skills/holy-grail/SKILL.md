@@ -18,6 +18,7 @@ This skill conducts other skills. It does not reimplement them. When an engine s
 - State the why before the how. No work without strategic intent.
 - Measure the starting point. Prove the upgrade against a baseline, not a vibe.
 - Never rush. Sequential phases, one task at a time, re-check after every change.
+- Improve, do not just fix. Each loop raises the ceiling: re-spec, re-plan, rebuild, retest until it cannot be meaningfully bettered, not just until it passes.
 - A panel of expert agents reviews everything. Nothing ships unreviewed.
 - Do the complete thing, not the minimal thing, but right-size to the target. No full ceremony on a typo.
 - Self-learn every run. Read the playbook first, write to it last. Learn which reviewers earn their keep.
@@ -96,13 +97,20 @@ Then:
 - **Dispatch the expert panel** (parallel subagents per `references/expert-panel.md`) against the brief's success criteria, including the red-team / abuse-case persona for anything touching auth, payments, user data, or input. Each scores its dimensions 0 to 10.
 - Log every finding to `.holy-grail/<slug>/findings.md` tagged with the reviewer that raised it. This feeds Phase 7.
 
-### Phase 5 - Improve Loop
+### Phase 5 - Improve Loop (re-spec, rebuild, retest until it cannot be bettered)
 
-Aggregate all findings. Fix Critical first and re-verify, then Important and re-verify. Re-run the reviewers whose area you changed.
+This is an improvement engine, not a fix-until-green loop. Each round does two kinds of work:
 
-Continue until ALL quality bars hold (auto-decisions.md section 5): second opinion PASS with no open P1, every activated panel dimension at least 9 out of 10, tests and build green, QA green for UI, and every brief success criterion met against the baseline.
+1. **Fix** every defect: codex P1s, panel Critical and Important findings, QA bugs. Re-verify after each.
+2. **Elevate (re-spec yourself).** The expert panel names the highest-leverage change that would push a dimension from good toward world-class, or beyond what the brief currently targets. If it clears the value-vs-effort bar (it moves a real success metric, it is not gold-plating, it is not a scope or strategy call), then **fold it back into the brief and spec, re-plan that increment, build it test-first, and re-verify.** This is how the skill makes the thing better, not merely correct.
 
-Cap at 3 rounds. If a bar is still unmet, do not loop forever and do not silently ship. Record the specific unmet bar and the best remaining option for the Phase 6 gate.
+Then re-run the reviewers whose area changed, and loop: improve, rebuild, retest.
+
+**Stop only when BOTH hold:**
+- **Correct:** second opinion PASS with no open P1, tests and build green, QA green for UI, every brief success criterion met against the baseline.
+- **Excellent:** every activated panel dimension is at least 9 out of 10, AND the panel cannot name a further improvement that clears the value-vs-effort bar. That is the excellence plateau, not "good enough".
+
+Keep going while the panel keeps finding worthwhile improvements. Stop when more polishing would not meaningfully move the outcome (diminishing returns), or at the safety cap of 6 rounds. Never loop forever and never silently ship a missed bar: at the cap, record the specific gap and the best remaining option for the Phase 6 gate. Anything that grows into a scope or strategy decision is parked for the gate, never auto-expanded.
 
 ### Phase 6 - Final Gate and Finish
 

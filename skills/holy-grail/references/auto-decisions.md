@@ -134,12 +134,18 @@ When a fork appears mid-run and it is not a genuine taste or strategy call, deci
 
 ## 5. Quality bars and stop conditions
 
-The improve loop (Phase 5) continues until ALL of these hold, or the 3-round cap is hit:
+The improve loop (Phase 5) is an improvement engine, not a fix-until-green loop. Each round it both fixes defects AND elevates: the panel names the highest-leverage improvement, and if it clears the value-vs-effort bar it is folded back into the brief (re-spec), re-planned, rebuilt test-first, and re-verified.
 
+Stop only when BOTH groups hold:
+
+**Correct**
 - codex (or the internal red-team fallback) returns PASS: no unaddressed P1/Critical findings.
-- every activated expert-panel dimension scores >= 9/10.
 - for code: tests pass (fresh run, real output), build is green.
 - for ui: QA health is green, no Critical/High visual issues open.
 - every success criterion in the brief is met (line by line check against `baseline.md`).
 
-If the cap is hit with a bar unmet, do not loop forever and do not silently ship. Record the specific unmet bar and the best remaining option in the Phase 6 report, and let the user decide at the gate.
+**Excellent**
+- every activated expert-panel dimension scores >= 9/10.
+- the panel cannot name a further improvement that clears the value-vs-effort bar (the excellence plateau).
+
+Keep looping while the panel keeps finding worthwhile improvements. Stop at the excellence plateau (more work would not meaningfully move the outcome) or at the safety cap of 6 rounds. Value-vs-effort bar for an elevation: it must move a real success metric and not be gold-plating. An elevation that grows into a scope or strategy decision is parked for the Phase 6 gate, never auto-expanded. If a bar is unmet at the cap, do not loop forever and do not silently ship: record the specific gap and the best remaining option in the Phase 6 report.

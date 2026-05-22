@@ -15,7 +15,7 @@ A run moves through eight phases:
 2. **Brainstorm and plan** - turns the brief into a spec and a plan, then a panel of experts and an adversarial reviewer tear the plan apart before any code.
 3. **Build** - subagent-driven, one task at a time, test-first for code, variants explored for UI.
 4. **Verify and review** - tests and build pass for real, an independent reviewer checks the diff, and the expert panel scores every dimension 0 to 10, including a red-team pass.
-5. **Improve loop** - fix, re-check, fix again until the second opinion passes, every panel dimension is at least 9 out of 10, QA is green, and every success criterion is met.
+5. **Improve loop** - not just fixing defects. Each round the panel names the highest-leverage improvement, the skill folds it back into the brief (re-spec), re-plans it, rebuilds it test-first, and re-verifies. It keeps raising the ceiling until the work is both correct (tests green, second opinion passes) and excellent (every dimension at least 9 out of 10 and no worthwhile improvement remains), not merely passing.
 6. **Final gate and finish** - a one-page report (before/after, evidence, the calls it auto-made so you can override), one approval, then ship and prove it on the live surface with before/after screenshots.
 7. **Self-learning retro** - records what worked, which reviewers earned their keep, and grows its own playbook and expert roster.
 
