@@ -24,6 +24,19 @@ Each persona has a name, a mandate, and what a 10 looks like. Act as the genuine
 
 ---
 
+## Persona precedence (resolve here, once)
+
+A fresh agent routes the panel by applying these rules in order. This is the single source of truth; everything below is a lookup table for it.
+
+1. **Target type gives the candidate set.** The target's type (code, ui, copy, strategy, mixed) selects the personas that could run. See the Activation map.
+2. **The Phase 0 focus question filters that set (intersection).** Run only the candidate personas that match the chosen focus. See the Focus map. So the personas that actually run = (candidates for the type) intersected with (personas for the focus).
+3. **The complementary rule drops the panel's code-correctness pass when codex is present.** When codex is in the run, the Staff Engineer correctness pass is owned by codex and does not run on the panel. See the complementary rule below.
+4. **Security/Red-Team is an always-on FLOOR.** For any target that touches auth, payments, user data, or input handling, Security/Red-Team runs regardless of focus, type, or any rule above. The floor cannot be filtered out.
+
+**Feature Strategist precedence (the one that used to conflict):** the Product/Feature Strategist LEADS the panel and writes the feature-opportunities section ONLY when the focus is "New features" or "All of the above". Under a "Design & UX" only focus the Feature Strategist does NOT run; under an "Engineering health" only focus the Feature Strategist does NOT run. For pure copy or strategy targets it adapts to "what new initiatives or capabilities would move this" and is optional. Product/CEO joins any Full or Epic run.
+
+---
+
 ## Activation map
 
 Pull the personas that match the target type. Do not run personas that add no signal (a backend perf fix does not need the Brand Copy Chief).
@@ -36,20 +49,20 @@ Pull the personas that match the target type. Do not run personas that add no si
 | strategy | Strategy/Capital-Allocation, Product/CEO | Domain SME |
 | mixed | union of the above for each component | as applicable |
 
-The **Product/Feature Strategist leads every code, ui, mixed, and product upgrade** and writes the feature-opportunities section of the brief. Design, CRO, copy, and accessibility personas support it; they do not replace it. For pure copy or strategy targets it adapts to "what new initiatives or capabilities would move this", and is optional. Product/CEO joins any Full or Epic run. Security/Red-Team always joins anything touching auth, payments, user data, or input handling, regardless of type.
+The candidate set above is then filtered by the Phase 0 focus (see Persona precedence and the Focus map). Whether the Product/Feature Strategist leads is decided by precedence rule "Feature Strategist precedence": it leads only under a "New features" or "All of the above" focus. Security/Red-Team always joins anything touching auth, payments, user data, or input handling, regardless of type or focus (the floor).
 
 **Conversion surface (defines when CRO joins):** a page whose primary job is to get an anonymous or trial visitor to take a signup, purchase, or lead action. Landing, pricing, signup, and paywall pages are conversion surfaces. Authenticated app screens and dashboards are not, unless they contain an upgrade or checkout call to action.
 
 ### Focus map (Phase 0 focus question filters the panel)
 
-The Phase 0 focus question scopes which personas run. Target type gives the candidate set; the chosen focus filters it. Security/Red-Team always runs for anything touching auth, payments, user data, or input, regardless of focus (safety floor).
+The Phase 0 focus question scopes which personas run. Target type gives the candidate set; the chosen focus filters it. Security/Red-Team always runs for anything touching auth, payments, user data, or input, regardless of focus (the floor, restated on every row so a single row is enough to route correctly).
 
 | Focus chosen | Personas that run |
 |---|---|
-| New features | Product/Feature Strategist (lead), Domain SME, plus Staff Engineer for correctness of what gets built |
-| Design & UX | Principal Designer, Accessibility, CRO (if a conversion surface), Brand Copy (if it has copy) |
-| Engineering health | Security/Red-Team, Performance, Staff Engineer (quality + correctness) |
-| All of the above | the full activated set for the target type, led by the Product/Feature Strategist |
+| New features | Product/Feature Strategist (lead), Domain SME, plus Staff Engineer for correctness of what gets built (plus Security/Red-Team if the target touches auth, payments, user data, or input) |
+| Design & UX | Principal Designer, Accessibility, CRO (if a conversion surface), Brand Copy (if it has copy). Feature Strategist does NOT run under a Design & UX only focus (plus Security/Red-Team if the target touches auth, payments, user data, or input) |
+| Engineering health | Security/Red-Team, Performance, Staff Engineer (quality + correctness). Feature Strategist does NOT run under an Engineering health only focus (plus Security/Red-Team if the target touches auth, payments, user data, or input) |
+| All of the above | the full activated set for the target type, led by the Product/Feature Strategist (plus Security/Red-Team if the target touches auth, payments, user data, or input) |
 
 The brief leads with the section matching the focus: feature opportunities for New features or All, the design/conversion analysis for Design & UX, the hardening/quality audit for Engineering health.
 
@@ -97,7 +110,7 @@ BASELINE (what it was before):
 <paste from baseline.md so you can judge the delta>
 
 Output exactly:
-1. SCORE: each of your dimensions 0 to 10, with a one-line reason.
+1. SCORE (SELF-ASSESSED): each of your dimensions 0 to 10, with a one-line reason. These are your own assessment as the persona, not an external or objective grade. Objective signals (tests pass, codex PASS/FAIL, QA health, real metric delta) are reported separately and are not the same as these self-assessed scores.
 2. WHAT WOULD MAKE EACH DIMENSION A 10: concrete, specific, actionable.
 3. FINDINGS: tagged Critical / Important / Minor, each citing the exact place.
 4. VERDICT: SHIP / FIX-FIRST, with the single most important thing to fix.
@@ -110,6 +123,8 @@ Aggregate all panel outputs into `findings.md`, tagged with the persona that rai
 ---
 
 ## Scoring rubric
+
+These dimension scores are SELF-ASSESSED: they are the persona's own judgement, not an external or objective grade. Objective signals (tests pass, codex PASS/FAIL, QA health, real metric delta) are reported separately and are not the same as these self-assessed scores.
 
 A dimension scores:
 

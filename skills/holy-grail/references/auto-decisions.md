@@ -140,14 +140,48 @@ When a fork appears mid-run and it is not a genuine taste or strategy call, deci
 5. **Explicit over implicit** : choose the option a future reader understands without tribal knowledge.
 6. **Bias to action** : if both options are reasonable and reversible, pick the better-looking one and note it. Do not stall.
 
-### Decision classification
+### Decision classification (the single build-vs-park home)
+
+This is the canonical definition of the build-vs-park rule and the value-vs-effort bar. SKILL.md and the phases reference "auto-decisions section 4"; this is what they point to. Define it here, nowhere else.
 
 - **Mechanical** (naming, file placement, obvious lib choice, test structure): decide silently via the principles.
-- **Feature improvement** (a net-new feature or capability that clears the value-vs-effort bar and is reversible): AUTO-BUILD it this run, do not park it. This is the headline of an upgrade. Note it in the report so the user sees what was added. The value-vs-effort bar: it moves a real success metric, it is not gold-plating, and it fits within "upgrading this target" rather than starting a new product.
+- **Feature improvement = AUTO-BUILD it this run.** A net-new capability that is reversible and clears the value-vs-effort bar. This is the headline of an upgrade: build the features that obviously belong in a better version of this thing. Note each one in the Phase 6 report so the user sees what was added.
 - **Taste** (a close design call, two reasonable UX directions): decide via the principles BUT flag it in the Phase 6 report so the user can override.
-- **User challenge** (a new product direction, spends real money, alters pricing/positioning, touches a legal/compliance boundary, irreversible, or a multi-week effort): never auto-build. Surface it prominently (it likely came from the brief's feature opportunities) and park it for the Phase 6 gate, or ask the single Phase 0 scoping question if it blocks starting.
+- **User-challenge fork = do NOT build.** A new product direction, real spend, a pricing/positioning change, a legal/compliance boundary, anything irreversible, or a multi-week effort. Pick the safe default, log it in `state.md`, and surface it prominently in the Phase 6 report (it likely came from the brief's feature opportunities). Ask the single Phase 0 scoping question only if it blocks starting.
 
-The line between "feature improvement" (auto-build) and "user challenge" (park) is the key judgment: build the features that obviously belong in a better version of this thing and are reversible; park the ones that are really a new product, cost money, or cannot be undone.
+**The value-vs-effort bar (defined once here):** an item clears the bar when it (a) moves a real success metric, (b) is reversible, and (c) is not gold-plating. It must fit within "upgrading this target", not "starting a new product". A feature improvement clears this bar; a user-challenge fork does not (it is a new product, costs money, or cannot be undone).
+
+**Blast-radius cap (build-vs-park safety override).** Even an item that classifies as a feature improvement does NOT get built silently this run if it would exceed **10 changed files**, or touch the **database schema or a migration**. Such an item escalates to the Phase 6 report as its own proposed sub-upgrade (with the safe default left in place), exactly like a user-challenge fork. This caps the blast radius of any single auto-built feature.
+
+### Subagent budget per intensity
+
+The counterweight to "boil the lake": adding features is desired, but a single run does not get to dispatch unbounded subagents. Each intensity carries a soft cap on the total subagents dispatched across the run:
+
+| Intensity | Soft subagent cap |
+|---|---|
+| **Deep** | <= 5 |
+| **Full** | <= 15 |
+| **Epic** | <= 30 |
+
+Track the running count in `state.md`. When the next dispatch would exceed the cap, do NOT silently continue: write `state.md` (current phase, decision log, remaining work), note in the Phase 6 report that the budget was hit and what is left, and stop at a clean checkpoint. The user can resume to spend more, but the run never burns through subagents unbounded.
+
+### Multi-repo handling (detect at Phase 0)
+
+The target can span more than one repo (e.g. an API plus a frontend plus a mobile app). At Phase 0, after route-to-source, detect how many repos the work touches:
+
+1. **Detect N repos.** If the change spans multiple repos (the host `CLAUDE.md` may list them, or route-to-source lands edits in more than one repo root), record each repo in `state.md`.
+2. **Plan N worktrees and N PRs.** One isolated worktree per repo, one PR per repo. Do not edit a second repo from the first repo's worktree.
+3. **Flag cross-repo contract changes.** When a change to one repo is a contract other repos consume (a schema, an API/GraphQL shape, a shared type, a webhook payload), flag it explicitly and update every consuming repo in the SAME run, so the API change and the frontend/mobile that read it ship together. A contract change landed in only one repo is an incomplete upgrade.
+
+For a single-repo target this whole subsection is a no-op: one worktree, one PR.
+
+### Propose-only mode (modifier)
+
+When the user says "propose only", "plan only", or "don't build yet" (in the command or the focus answer), run a planning-only pass:
+
+- Run **Phases 0 to 2 plus the expert panel** only: ingest, classify, set intensity, build the brief, write the plan, run the panel on it.
+- **STOP there.** Deliver the brief and the plan (with the parked user-challenge forks and the value-vs-effort calls noted). Do NOT build, do NOT open a PR, do NOT touch a worktree's source.
+- State in the announce line that this is propose-only. The user reviews the plan and re-runs without the modifier to build it.
 
 ---
 
@@ -167,4 +201,13 @@ Stop only when BOTH groups hold:
 - every activated expert-panel dimension scores >= 9/10.
 - the panel cannot name a further improvement that clears the value-vs-effort bar (the excellence plateau).
 
-Keep looping while the panel keeps finding worthwhile improvements. Stop at the excellence plateau (more work would not meaningfully move the outcome) or at the safety cap of 3 rounds. Value-vs-effort bar for an elevation: it must move a real success metric, be reversible, and not be gold-plating. Net-new feature improvements that clear that bar are built, not parked. Only genuinely large or strategic expansions (new product direction, pricing, spend, legal, irreversible) park for the Phase 6 gate. If a bar is unmet at the cap, do not loop forever and do not silently ship: record the specific gap and the best remaining option in the Phase 6 report.
+Keep looping while the panel keeps finding worthwhile improvements. Stop at the excellence plateau (more work would not meaningfully move the outcome) or at the safety cap of 3 rounds. The value-vs-effort bar for an elevation is the one defined in section 4 (moves a real metric, reversible, not gold-plating). Net-new feature improvements that clear that bar are built, not parked. Only genuinely large or strategic expansions (new product direction, pricing, spend, legal, irreversible) park for the Phase 6 gate. If a bar is unmet at the cap, do not loop forever and do not silently ship: record the specific gap and the best remaining option in the Phase 6 report.
+
+### Proof split (in-run vs production)
+
+The proof you can produce inside the run is not the proof of production. Keep them separate and never conflate them:
+
+- **In-run proof** is local/preview only: tests passing on a fresh run, a screenshot of the dev or preview build, QA health on the local surface. This is all the loop can achieve before the PR.
+- **Production proof** is post-merge and post-deploy. It is async (it happens after the human merges), and for mobile it may be impossible in-loop. The report states which kind was achieved.
+
+**Never claim production-verified before a merge.** The run ends at a PR; until that PR is merged and deployed, the only honest claim is local/preview verified.
