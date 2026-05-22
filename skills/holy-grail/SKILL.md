@@ -110,7 +110,7 @@ Then re-run the reviewers whose area changed, and loop: improve, rebuild, retest
 - **Correct:** second opinion PASS with no open P1, tests and build green, QA green for UI, every brief success criterion met against the baseline.
 - **Excellent:** every activated panel dimension is at least 9 out of 10, AND the panel cannot name a further improvement that clears the value-vs-effort bar. That is the excellence plateau, not "good enough".
 
-Keep going while the panel keeps finding worthwhile improvements. Stop when more polishing would not meaningfully move the outcome (diminishing returns), or at the safety cap of 6 rounds. Never loop forever and never silently ship a missed bar: at the cap, record the specific gap and the best remaining option for the Phase 6 gate. Anything that grows into a scope or strategy decision is parked for the gate, never auto-expanded.
+Keep going while the panel keeps finding worthwhile improvements. Stop when more polishing would not meaningfully move the outcome (diminishing returns), or at the safety cap of 3 rounds. Never loop forever and never silently ship a missed bar: at the cap, record the specific gap and the best remaining option for the Phase 6 gate. Anything that grows into a scope or strategy decision is parked for the gate, never auto-expanded.
 
 ### Phase 6 - Final Gate and Finish
 
