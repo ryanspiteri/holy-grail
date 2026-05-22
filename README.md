@@ -23,24 +23,27 @@ A run moves through eight phases:
 
 The model's weights do not change. holy-grail keeps a durable, structured memory in `skills/holy-grail/references/playbook.md` that it reads at the start of every run and appends to at the end. It compares what it predicted against what actually happened, learns which reviewers add signal for which kinds of target, and promotes recurring lessons into the skill itself. See the playbook for the format.
 
-## Install
+## Install (for a teammate)
 
-Local skill (simplest):
+The repo is private, so first get access: the owner adds you as a collaborator on GitHub (repo Settings -> Collaborators), or makes the repo public.
+
+Then, in a terminal:
 
 ```
+git clone https://github.com/ryanspiteri/holy-grail.git
+cd holy-grail
 bash install.sh
 ```
 
-As a shareable plugin, inside Claude Code:
+`install.sh` symlinks the skill into `~/.claude/skills/` (so it works in every project) and installs the dependencies (superpowers, gstack, codex CLI). One optional manual step to activate the codex review:
 
 ```
-/plugin marketplace add ryanspiteri/holy-grail
-/plugin install holy-grail
+codex login
 ```
 
-The repo is private. To let a coworker install it, add them as a collaborator on the GitHub repo first, then they run the two commands above.
+Start a new Claude Code session, then say: `upgrade <something>` (or `/holy-grail`).
 
-Then start a new session and say: `upgrade <something>`.
+To update later, `git pull` in the repo. The symlink picks up changes automatically.
 
 ## Dependencies
 
