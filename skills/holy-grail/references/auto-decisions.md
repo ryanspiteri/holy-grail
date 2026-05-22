@@ -117,6 +117,18 @@ Hard rule for any ui target: a custom palette, intentional 4/8px spacing, one cl
 
 ---
 
+## 3.6 Memory model (two tiers, never cross-contaminate)
+
+holy-grail runs on every repo, across different stacks. Memory is split so a lesson learned on one project never leaks into another.
+
+- **Universal lessons** (generalizable process or technique that applies across any project) live in `references/playbook.md`. This file is per-machine and gitignored, seeded from `playbook.seed.md`. The "Always-apply" block lives here. Every lesson here is `scope: universal`. Loaded trigger-driven at Phase 0 per the rules in `playbook.seed.md`.
+- **Project-specific conventions and lessons** live in `.holy-grail/project.md` INSIDE the target repo. They travel with that project (committed there) and never load on another. Anything tied to one repo's stack, naming, deploy, or quirks belongs here, not in the universal playbook.
+- **Project context is authoritative, not rediscovered.** The host project's `CLAUDE.md` (and `.holy-grail/project.md` if present) is the source of truth for project context: stack, test command, deploy method, merge policy, repos, brand voice. Read it at Phase 0 rather than re-deriving conventions every run. When it states a fact about the project, that fact wins over a guess.
+
+Routing at the retro (Phase 7): for each lesson, decide "does this generalize beyond this project?" Universal goes to `references/playbook.md`; project-specific goes to the target repo's `.holy-grail/project.md`. Never put a project-specific lesson in the universal playbook.
+
+---
+
 ## 4. The 6 auto-decision principles
 
 When a fork appears mid-run and it is not a genuine taste or strategy call, decide it yourself using these, log the decision in `state.md`, and keep moving. Only stop at Phase 6.
