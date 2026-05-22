@@ -1,6 +1,6 @@
 ---
 name: holy-grail
-description: Use when the user asks to upgrade, improve, level up, perfect, polish, or "make the best it can be" - a feature, codebase, page, component, design, copy, strategy, or document. Triggers on "upgrade X", "improve X", "level up X", "make X world-class", "make this the best it can be", "holy grail". Accepts a description, a live URL, a screenshot, a file path, or a Figma link. Runs a one-shot, expert-reviewed, self-improving pipeline. Do NOT use for "upgrade gstack/tools" (use gstack-upgrade) or paywall/checkout conversion (use paywall-upgrade-cro).
+description: Use when the user asks to upgrade, improve, level up, perfect, polish, add features to, harden, or make something better - a feature, codebase, page, component, design, copy, strategy, or document. Triggers on "upgrade X", "improve X", "level up X", "make X better", "add features to X", "holy grail". Fire-and-forget: asks one focus question, then autonomously adds features, tests, reviews, and improves over several rounds, ending at a PR (never auto-merges). Accepts a description, a live URL, a screenshot, a file path, or a Figma link. Do NOT use for "upgrade gstack/tools" (use gstack-upgrade) or paywall/checkout conversion (use paywall-upgrade-cro).
 metadata:
   author: Ryan Spiteri
   version: 1.0.0
