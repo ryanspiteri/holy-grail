@@ -12,6 +12,7 @@ Each persona has a name, a mandate, and what a 10 looks like. Act as the genuine
 
 - **Staff Engineer** : correctness, simplicity, maintainability, the right abstraction level, test coverage. A 10 = the code is obviously correct, easy to change, well tested, with no clever tricks that need explaining.
 - **Security / Red-Team Lead** : auth, input validation, injection, secrets, trust boundaries, abuse cases, data integrity. A 10 = a hostile user with a flaky network cannot break, leak, or corrupt anything; matches the project security rules.
+- **Product / Feature Strategist** : the headline lens for an upgrade. Generates the highest-leverage NET-NEW features and capability upgrades that would make the target dramatically more valuable, ranked by impact vs effort. Marks each in-scope (auto-build) or user-challenge (park for the gate). A 10 = proposes features users would clearly want and that are worth building now, not just polish on what exists.
 - **Product / CEO** : does this actually solve the user's problem, is the scope right, is it the highest-leverage version. A 10 = a user would notice and care, and nothing important was left out or gold-plated.
 - **Principal Designer** : visual hierarchy, spacing rhythm, typography, colour, consistency, motion, zero AI-slop. A 10 = looks intentional and premium, one clear focal point, nothing generic.
 - **Conversion / CRO Expert** : clarity of value, friction, the single next action, trust signals, the "so what" test. A 10 = the visitor knows what to do and why within seconds.
@@ -29,13 +30,13 @@ Pull the personas that match the target type. Do not run personas that add no si
 
 | Target type | Always | Add if scope active |
 |---|---|---|
-| code (backend/logic) | Security/Red-Team, Performance | Domain SME, Staff Engineer (see complementary rule) |
-| ui | Principal Designer, Accessibility | CRO (if a conversion surface), Brand Copy (if it has copy), Staff Engineer (see complementary rule) |
+| code (backend/logic) | Product/Feature Strategist, Security/Red-Team, Performance | Domain SME, Staff Engineer (see complementary rule) |
+| ui | Product/Feature Strategist, Principal Designer, Accessibility | CRO (if a conversion surface), Brand Copy (if it has copy), Staff Engineer (see complementary rule) |
 | copy | Brand Copy Chief, CRO, Product/CEO | Domain SME |
 | strategy | Strategy/Capital-Allocation, Product/CEO | Domain SME |
 | mixed | union of the above for each component | as applicable |
 
-Product/CEO joins any Full or Epic run. Security/Red-Team always joins anything touching auth, payments, user data, or input handling, regardless of type.
+The **Product/Feature Strategist leads every code, ui, mixed, and product upgrade** and writes the feature-opportunities section of the brief. Design, CRO, copy, and accessibility personas support it; they do not replace it. For pure copy or strategy targets it adapts to "what new initiatives or capabilities would move this", and is optional. Product/CEO joins any Full or Epic run. Security/Red-Team always joins anything touching auth, payments, user data, or input handling, regardless of type.
 
 **Conversion surface (defines when CRO joins):** a page whose primary job is to get an anonymous or trial visitor to take a signup, purchase, or lead action. Landing, pricing, signup, and paywall pages are conversion surfaces. Authenticated app screens and dashboards are not, unless they contain an upgrade or checkout call to action.
 

@@ -32,6 +32,8 @@ Goal: turn a page the user points at into the files you can actually edit.
 
 ## 1. Target classification
 
+**Default intent of "upgrade X": lead with net-new features and capabilities that make X dramatically more valuable. Design, copy, and polish are secondary.** Even when the target arrives as a UI or page, the first question is "what new capabilities would make this 10x better", not "how do we make this look nicer". Generate feature opportunities first, then improve the surface around them.
+
 Classify into one primary type (a target can be mixed; pick the dominant and note secondaries). This selects which reviewers and phases run.
 
 - **code** : source files, a feature, a bug, performance, an API, a data model, tests, infra.
@@ -129,8 +131,11 @@ When a fork appears mid-run and it is not a genuine taste or strategy call, deci
 ### Decision classification
 
 - **Mechanical** (naming, file placement, obvious lib choice, test structure): decide silently via the principles.
-- **Taste** (a close design call, two reasonable UX directions, a borderline scope question): decide via the principles BUT flag it in the Phase 6 report so the user can override.
-- **User challenge** (changes the product's direction, spends real money, alters pricing/positioning, touches a legal/compliance boundary, irreversible): never auto-decide. Park it for the Phase 6 gate, or ask the single Phase 0 scoping question if it blocks starting.
+- **Feature improvement** (a net-new feature or capability that clears the value-vs-effort bar and is reversible): AUTO-BUILD it this run, do not park it. This is the headline of an upgrade. Note it in the report so the user sees what was added. The value-vs-effort bar: it moves a real success metric, it is not gold-plating, and it fits within "upgrading this target" rather than starting a new product.
+- **Taste** (a close design call, two reasonable UX directions): decide via the principles BUT flag it in the Phase 6 report so the user can override.
+- **User challenge** (a new product direction, spends real money, alters pricing/positioning, touches a legal/compliance boundary, irreversible, or a multi-week effort): never auto-build. Surface it prominently (it likely came from the brief's feature opportunities) and park it for the Phase 6 gate, or ask the single Phase 0 scoping question if it blocks starting.
+
+The line between "feature improvement" (auto-build) and "user challenge" (park) is the key judgment: build the features that obviously belong in a better version of this thing and are reversible; park the ones that are really a new product, cost money, or cannot be undone.
 
 ---
 
@@ -144,10 +149,10 @@ Stop only when BOTH groups hold:
 - codex (or the internal red-team fallback) returns PASS: no unaddressed P1/Critical findings.
 - for code: tests pass (fresh run, real output), build is green.
 - for ui: QA health is green, no Critical/High visual issues open.
-- every success criterion in the brief is met (line by line check against `baseline.md`).
+- every success criterion in the brief is met (line by line check against `baseline.md`), INCLUDING the high-value feature opportunities marked in-scope (they are built, or the report states why not).
 
 **Excellent**
 - every activated expert-panel dimension scores >= 9/10.
 - the panel cannot name a further improvement that clears the value-vs-effort bar (the excellence plateau).
 
-Keep looping while the panel keeps finding worthwhile improvements. Stop at the excellence plateau (more work would not meaningfully move the outcome) or at the safety cap of 3 rounds. Value-vs-effort bar for an elevation: it must move a real success metric and not be gold-plating. An elevation that grows into a scope or strategy decision is parked for the Phase 6 gate, never auto-expanded. If a bar is unmet at the cap, do not loop forever and do not silently ship: record the specific gap and the best remaining option in the Phase 6 report.
+Keep looping while the panel keeps finding worthwhile improvements. Stop at the excellence plateau (more work would not meaningfully move the outcome) or at the safety cap of 3 rounds. Value-vs-effort bar for an elevation: it must move a real success metric, be reversible, and not be gold-plating. Net-new feature improvements that clear that bar are built, not parked. Only genuinely large or strategic expansions (new product direction, pricing, spend, legal, irreversible) park for the Phase 6 gate. If a bar is unmet at the cap, do not loop forever and do not silently ship: record the specific gap and the best remaining option in the Phase 6 report.

@@ -16,6 +16,7 @@ This skill conducts other skills. It does not reimplement them. When an engine s
 
 - Act as the world-class expert in every field the target touches.
 - State the why before the how. No work without strategic intent.
+- Lead with capability, not polish. To upgrade something is first to ask what NET-NEW features and capabilities would make it dramatically more valuable, then build the high-value ones. Design, copy, and polish support that, they are not the headline. Feature improvements are the point of an upgrade.
 - Measure the starting point. Prove the upgrade against a baseline, not a vibe.
 - Never rush. Sequential phases, one task at a time, re-check after every change.
 - Improve, do not just fix. Each loop raises the ceiling: re-spec, re-plan, rebuild, retest until it cannot be meaningfully bettered, not just until it passes.
@@ -30,7 +31,7 @@ CORE INVARIANTS  (the self-learning retro must never weaken or remove these)
 - The Phase 6 human gate always happens before shipping, merging, or PR.
 - Every change is reviewed before ship (second opinion + expert panel).
 - No completion claim without fresh verification evidence (baseline before claim).
-- One-shot autonomy: auto-decide mechanical/taste forks, park user-challenge forks for the gate.
+- One-shot autonomy: auto-decide mechanical/taste forks; auto-build feature improvements that clear the value-vs-effort bar and are reversible; park only user-challenge forks (new product direction, real spend, pricing, legal, irreversible) for the gate.
 - Anti-AI-slop, no em-dashes.
 - Never auto-merge or auto-deploy without explicit approval.
 Learned additions append BELOW the pipeline, never edit this block.
@@ -60,9 +61,10 @@ Read `references/auto-decisions.md` for the ingestion matrix, routing, intensity
 Act as the domain expert. Write `.holy-grail/<slug>/01-brief.md`:
 
 - The why and the strategic intent.
-- The 10-star outcome, described concretely.
+- **Feature opportunities (the headline of the brief, lead with these).** Brainstorm the highest-leverage NET-NEW features and capability upgrades that would make the target dramatically more valuable, not just a nicer version of what exists. Rank by impact vs effort. For each: what it is, why it matters, rough effort, reversible or not, in-scope (auto-build) or user-challenge (park for the gate). Aim for at least 5 candidates before filtering. This is where most of the value is, do not shortcut it.
+- The 10-star outcome, framed around the new capabilities the target would gain.
 - A north-star metric and a predicted improvement (you will check the prediction at Phase 7).
-- Measurable success criteria, each tied to the baseline.
+- Measurable success criteria, each tied to the baseline, including the high-value features to be built this run.
 - Blast radius and risk, constraints, non-goals.
 
 Then:
@@ -83,6 +85,7 @@ Then:
 
 ### Phase 3 - Build or Produce
 
+- **Build the high-value features first.** The brief's ranked feature opportunities that clear the value-vs-effort bar and are reversible are the main work of the build, not an afterthought. Build them. Park only genuinely large or strategic expansions (new product direction, pricing, spend, legal, irreversible) for the gate. Design and polish come after the capability is in.
 - For UI or design targets, use the design and asset toolchain in `references/auto-decisions.md` section 3.5. If no `DESIGN.md` exists, establish the system first (`Skill(design-consultation)` or infer one). Explore variants (`Skill(design-shotgun)` if present, else 2 to 3 distinct directions) and converge on the strongest. Build distinctive UI with `Skill(frontend-design)` when present. Generate any needed visual assets with `Skill(nano-banana-pro)` or `Skill(higgsfield-generate)`. Pull designs via `Skill(figma)` if the input was Figma. Do not ship the first idea, and never ship a generic AI-slop UI.
 - For code: `Skill(superpowers:using-git-worktrees)` to isolate, then `Skill(superpowers:subagent-driven-development)` with `superpowers:test-driven-development`. If superpowers is absent, use the fallback subagent build loop. Fresh subagent per task, two-stage spec then quality review per task, test first.
 - For non-code: produce the artifact via focused per-section subagents, each reviewed.
@@ -102,7 +105,7 @@ Then:
 This is an improvement engine, not a fix-until-green loop. Each round does two kinds of work:
 
 1. **Fix** every defect: codex P1s, panel Critical and Important findings, QA bugs. Re-verify after each.
-2. **Elevate (re-spec yourself).** The expert panel names the highest-leverage change that would push a dimension from good toward world-class, or beyond what the brief currently targets. If it clears the value-vs-effort bar (it moves a real success metric, it is not gold-plating, it is not a scope or strategy call), then **fold it back into the brief and spec, re-plan that increment, build it test-first, and re-verify.** This is how the skill makes the thing better, not merely correct.
+2. **Elevate (re-spec yourself).** The Product/Feature Strategist and the panel name the highest-leverage change, biased toward NET-NEW features and capabilities, then design and polish. If it clears the value-vs-effort bar (it moves a real success metric, it is reversible, it is not gold-plating), then **fold it back into the brief and spec, re-plan that increment, build it test-first, and re-verify.** This includes building net-new feature improvements, not just polishing existing dimensions. Park only genuinely large or strategic expansions (new product direction, pricing, spend, legal, irreversible) for the gate.
 
 Then re-run the reviewers whose area changed, and loop: improve, rebuild, retest.
 
@@ -110,11 +113,11 @@ Then re-run the reviewers whose area changed, and loop: improve, rebuild, retest
 - **Correct:** second opinion PASS with no open P1, tests and build green, QA green for UI, every brief success criterion met against the baseline.
 - **Excellent:** every activated panel dimension is at least 9 out of 10, AND the panel cannot name a further improvement that clears the value-vs-effort bar. That is the excellence plateau, not "good enough".
 
-Keep going while the panel keeps finding worthwhile improvements. Stop when more polishing would not meaningfully move the outcome (diminishing returns), or at the safety cap of 3 rounds. Never loop forever and never silently ship a missed bar: at the cap, record the specific gap and the best remaining option for the Phase 6 gate. Anything that grows into a scope or strategy decision is parked for the gate, never auto-expanded.
+Keep going while the panel keeps finding worthwhile improvements. Stop when more work would not meaningfully move the outcome (diminishing returns), or at the safety cap of 3 rounds. Never loop forever and never silently ship a missed bar: at the cap, record the specific gap and the best remaining option for the Phase 6 gate. Ordinary feature improvements that clear the value bar are built, not parked. Only genuinely large or strategic expansions (new product direction, pricing, spend, legal, irreversible) park for the gate.
 
 ### Phase 6 - Final Gate and Finish
 
-1. Write `.holy-grail/<slug>/report.md`: what changed and why, before/after against the baseline, evidence (test output, second-opinion verdict, panel scores, screenshots, north-star delta), the taste forks you auto-decided so the user can override, and any remaining gaps.
+1. Write `.holy-grail/<slug>/report.md`: what changed and why, before/after against the baseline, evidence (test output, second-opinion verdict, panel scores, screenshots, north-star delta), the **feature improvements built this run**, a **ranked list of the larger feature and strategy ideas parked for your greenlight** (so you can pick the next run), the taste forks you auto-decided so the user can override, and any remaining gaps.
 2. Present the report and use `AskUserQuestion` to get approval to ship. This is the only stop.
 3. Optionally notify via the Telegram reply tool when the gate is reached.
 4. On approval: for code, `Skill(superpowers:finishing-a-development-branch)`, then commit, push, and open a PR (always push, never ask). For non-code, deliver the artifact.
@@ -132,13 +135,14 @@ Dispatch a retro subagent that reads `findings.md` and the brief, then:
 
 ## Autonomy and the single gate
 
-Run autonomous. Override the intermediate approval gates inside brainstorming and writing-plans. Auto-decide mechanical and taste forks via the 6 principles in `references/auto-decisions.md`, logging each in `state.md`. Park only user-challenge forks (direction, real spend, pricing or positioning, legal or compliance, irreversible) for the Phase 6 gate, or ask the single Phase 0 scoping question if one blocks starting.
+Run autonomous. Override the intermediate approval gates inside brainstorming and writing-plans. Auto-decide mechanical and taste forks via the 6 principles in `references/auto-decisions.md`, logging each in `state.md`. Auto-build feature improvements that clear the value-vs-effort bar and are reversible. Park only user-challenge forks (new product direction, real spend, pricing or positioning, legal or compliance, irreversible) for the Phase 6 gate, or ask the single Phase 0 scoping question if one blocks starting.
 
 ## Red flags (rationalizations that mean stop)
 
 | Thought | Reality |
 |---|---|
 | "Skip the brief, I know what to build" | The brief is the leverage. Write it. A bad brief wastes the whole run. |
+| "Just polish what is there" | An upgrade leads with new capability. Ask what features would make this 10x more valuable first, build the high-value ones, then polish. Design is support, not the headline. |
 | "Skip the second opinion, it looks fine" | An independent reviewer reliably finds defects single-pass work misses. Always run it. |
 | "One review round is enough" | Re-check after every change. The bar is every dimension at 9, not "good enough". |
 | "I do not need the playbook" | Reading it is the entire self-learning loop. Load it and say what you are applying. |
