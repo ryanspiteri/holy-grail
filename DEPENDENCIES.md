@@ -1,34 +1,33 @@
 # Dependencies
 
-holy-grail is self-contained. It works with nothing else installed, and gets better when the ecosystem is present. It never bundles or installs licensed tooling. No em-dashes in this file.
+holy-grail is self-contained: it works with nothing else installed, via built-in fallbacks in `skills/holy-grail/references/fallbacks.md`. It also gets better when the ecosystem is present, and `install.sh` installs that ecosystem for you. No em-dashes in this file.
 
-`scripts/bootstrap.sh` detects what you have and writes `~/.holy-grail/capabilities.json`. The skill reads that at the start of every run and routes each step to the native skill or to its built-in fallback in `skills/holy-grail/references/fallbacks.md`.
+`scripts/bootstrap.sh` writes `~/.holy-grail/capabilities.json`, which the skill reads at the start of every run to route each step to a native skill or to its built-in fallback.
+
+Nothing is bundled or redistributed. Each dependency is installed from its own official source (the Anthropic plugin marketplace, the public MIT gstack repo, the public `@openai/codex` npm package).
 
 ## Tier 1 - Core (required: none)
 
-The whole pipeline runs on built-in Claude Code tools plus subagents. No external skill is required. If you install nothing, holy-grail still writes the brief, plans, builds with a per-task subagent loop, reviews with an internal adversarial pass and an expert panel, verifies, and self-learns.
+The whole pipeline runs on built-in Claude Code tools plus subagents. No external skill is required. With nothing installed, holy-grail still writes the brief, plans, builds with a per-task subagent loop, reviews with an internal adversarial pass and an expert panel, verifies, and self-learns.
 
-## Tier 2 - Auto-installed (free, official)
+## Tier 2 - Installed for you by `install.sh`
 
-- **superpowers** (`superpowers@claude-plugins-official`): higher-quality brainstorming, plan writing, subagent-driven build, TDD, code-review, and verification skills. bootstrap installs it automatically if missing. If the automatic install cannot run, bootstrap prints the one command to run in Claude Code:
-  ```
-  /plugin install superpowers@claude-plugins-official
-  ```
+Running `bash install.sh` (or `scripts/bootstrap.sh --install-deps`) installs all three, best effort and non-fatal:
 
-## Tier 3 - Detected and used if present (licensed or key-required, never bundled)
+- **superpowers** (`superpowers@claude-plugins-official`): the build chain (brainstorming, writing-plans, subagent-driven-development, TDD, code review, verification). Free, official Anthropic plugin.
+- **gstack** (MIT, `github.com/garrytan/gstack`): unlocks `codex`, `autoplan`, `qa`, `design-review`, `plan-design-review`, `design-consultation`, `design-shotgun`, `browse`, and the plan-review skills. Installed by cloning the public repo and running its `setup`, the same method `/gstack-upgrade` uses.
+- **codex CLI** (`@openai/codex`): the independent code-review second opinion. The binary is installed via npm (or brew). It needs your own OpenAI or ChatGPT login: run `codex login` once to activate it. Until you do, holy-grail uses its built-in red-team review instead.
 
-- **gstack** (licensed): unlocks `codex`, `autoplan`, `qa`, `design-review`, `plan-design-review`, `design-consultation`, `design-shotgun`, `browse`, and the plan-review skills. If you have a gstack license, install it from your gstack source. holy-grail detects it and uses it. If absent, it uses its built-in design/QA/second-opinion fallbacks.
-- **codex** / OpenAI key: the independent code-review second opinion. Needs your own `OPENAI_API_KEY` or `~/.codex/auth.json`. Detected and used if present; otherwise the internal red-team subagent stands in.
-- **ruflo** memory (optional): cross-session lesson storage. If absent, learnings still persist in `references/playbook.md`.
+The only manual step after `install.sh` is `codex login` (your own OpenAI credentials, which no installer can provide for you).
+
+## Optional
+
+- **ruflo** memory: cross-session lesson storage. If absent, learnings still persist in `skills/holy-grail/references/playbook.md`.
 
 ## Design and asset tools (used for ui targets if present)
 
-holy-grail uses a full design toolchain for visual work (see `skills/holy-grail/references/auto-decisions.md` section 3.5). All have a Principal-Designer-persona fallback, so a ui upgrade still works with none of them.
+Installed with gstack above: `design-consultation`, `design-shotgun`, `design-review`, `plan-design-review`. Plus, install via `/plugin` if you want them: `frontend-design` and `figma` (free official plugins) for distinctive UI code and Figma import. Image generation (`nano-banana-pro`, `higgsfield-generate`) needs its own API keys (Gemini, Higgsfield). All have a Principal-Designer-persona fallback, so a ui upgrade works without any of them.
 
-- **frontend-design** and **figma**: free official plugins. Install via `/plugin install frontend-design` and `/plugin install figma` for distinctive UI code and Figma import. Recommended for anyone doing ui work.
-- **design-consultation**, **design-shotgun**, **design-review**, **plan-design-review**: part of gstack (licensed).
-- **nano-banana-pro** / **higgsfield-generate**: image generation and editing. Need their own API keys (Gemini, Higgsfield). Used to produce icons, hero images, illustrations, and OG images. Without them, holy-grail uses existing assets or CSS/SVG, never stretched stock.
+## Why nothing is "bundled"
 
-## What never happens
-
-holy-grail will not download, copy, or auto-install gstack or codex. They are licensed or key-gated, and redistributing them would be neither legal nor functional (machine-specific binaries). holy-grail carries its own fallback for each job instead.
+holy-grail never copies another tool's files into itself. Bundling would break (machine-specific binaries) and is unnecessary: each dependency installs cleanly from its own official source. holy-grail just orchestrates them, and falls back to its own built-in versions when one is missing.

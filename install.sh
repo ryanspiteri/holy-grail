@@ -33,8 +33,9 @@ echo "  /plugin marketplace add <git-url-of-this-repo>"
 echo "  /plugin install holy-grail"
 echo ""
 
-# --- detect + auto-install free deps, write capability map ---
-bash "${REPO_DIR}/scripts/bootstrap.sh"
+# --- detect + INSTALL deps (superpowers + gstack + codex CLI), write capability map ---
+bash "${REPO_DIR}/scripts/bootstrap.sh" --install-deps
 
 echo ""
 echo "done. Start a new Claude Code session, then say: upgrade <something>"
+echo "(If codex was just installed, run 'codex login' once to activate the codex review.)"

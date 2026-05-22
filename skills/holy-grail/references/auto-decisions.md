@@ -74,11 +74,13 @@ Right-sizing rule of thumb: if doing the full panel would take longer than the c
 
 ## 3. Capability map (what is installed)
 
-Read `~/.holy-grail/capabilities.json` (written by `scripts/bootstrap.sh`). If absent or older than 24h, run bootstrap to (re)build it. Shape:
+Read `~/.holy-grail/capabilities.json` (written by `scripts/bootstrap.sh`). If absent or older than 24h, run bootstrap with no flag to (re)build it (read-only detection). To actually install missing deps, run `bash install.sh` or `scripts/bootstrap.sh --install-deps` (installs superpowers + gstack + codex CLI). Shape:
 
 ```json
-{ "superpowers": true, "codex": false, "gstack": false, "browser": true, "ruflo": true, "git": true, "updated": "<iso8601>" }
+{ "superpowers": true, "codex": true, "codex_cli": true, "codex_auth": true, "gstack": true, "browser": true, "ruflo": true, "git": true, "updated": "<iso8601>" }
 ```
+
+`codex` is true when codex is usable (CLI installed AND logged in). `codex_cli` true but `codex_auth` false means the binary is installed but the user has not run `codex login` yet, so use the red-team fallback for the second opinion until they do.
 
 Route each conducted step to its native skill when present, else to `references/fallbacks.md`:
 

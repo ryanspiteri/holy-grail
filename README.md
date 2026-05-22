@@ -44,7 +44,7 @@ Then start a new session and say: `upgrade <something>`.
 
 ## Dependencies
 
-None are required. holy-grail is self-contained with built-in fallbacks. It auto-installs the free official `superpowers` plugin if missing, and detects and uses `gstack` / `codex` if you already have them. It never bundles or installs licensed tooling. See `DEPENDENCIES.md`.
+None are required. holy-grail is self-contained with built-in fallbacks. `install.sh` also installs the full ecosystem for you, best effort: `superpowers` (free official plugin), `gstack` (MIT, cloned from its public repo), and the `codex` CLI (`@openai/codex` via npm). The one manual step is `codex login` (your own OpenAI credentials). Nothing is bundled or redistributed; each is installed from its own official source. See `DEPENDENCIES.md`.
 
 ## Repo layout
 
