@@ -73,3 +73,74 @@ A "GREEN" result means the skill, when given the prompt, correctly classifies th
 **Prompt:** "upgrade my paywall conversion rate"
 
 **Expected:** holy-grail does NOT activate. This routes to paywall-upgrade-cro, named in the description's exclusion clause.
+
+---
+
+## Test 5 : cross-project (non-NewU Python repo)
+
+**Prompt:** "upgrade my Django REST API's auth" on a non-NewU Python repo
+
+**Expected routing:**
+- Generic routing: NO NewU assumptions, no hardcoded project context. The skill is project-agnostic.
+- Phase 0 recall reads THIS repo's `CLAUDE.md` and `.holy-grail/project.md` as the authoritative project context (stack, test command, deploy, merge policy), not NewU's.
+- Target type: code.
+- Reviewers: Engineering health personas (Security/Red-Team, Performance, Staff Engineer) plus features as relevant. Security/Red-Team is the always-on floor (auth target).
+- Any lesson learned routes to THIS repo's `.holy-grail/project.md` if project-specific, the universal playbook only if it generalizes.
+
+---
+
+## Test 6 : propose-only mode
+
+**Prompt:** "propose how you'd upgrade the checkout, don't build it"
+
+**Expected routing:**
+- Propose-only modifier detected ("don't build it").
+- Runs Phases 0 to 2 plus the expert panel only: ingest, classify, intensity, brief, plan, panel on the plan.
+- STOPS there with the brief + plan (parked user-challenge forks and value-vs-effort calls noted).
+- NO build, NO worktree source edits, NO PR.
+- Announce line states propose-only.
+
+---
+
+## Test 7 : multi-repo feature (API + web + mobile)
+
+**Prompt:** "upgrade the messaging feature" spanning an API repo + a web repo + a mobile repo
+
+**Expected routing:**
+- Phase 0 detects N repos (3); records each in state.md.
+- Plan uses N worktrees and N PRs (one isolated worktree + one PR per repo); no editing a second repo from the first's worktree.
+- Cross-repo contract changes (API/GraphQL shape, shared type, webhook payload consumed by web + mobile) flagged explicitly and updated in every consuming repo in the SAME run.
+
+---
+
+## Test 8 : fire-and-forget finish (user away)
+
+**Prompt:** any normal code upgrade with the user away
+
+**Expected routing:**
+- NO blocking `AskUserQuestion` gate at the finish. The default is hands-off.
+- Phase 6 ends by opening a PR (with the report) + Telegram notify + clean exit.
+- NEVER auto-merges, NEVER auto-deploys. The human merges asynchronously.
+
+---
+
+## Test 9 : self-learning merge (second run, same trigger)
+
+**Prompt:** a second run hitting trigger "irreversible-external-action"
+
+**Expected behavior:**
+- Phase 7 merge-before-append: searches existing lessons for the same trigger + corrective action, finds the match, increments `count`, appends evidence, bumps `confidence`, sets `last_confirmed_run`.
+- Does NOT append a duplicate entry.
+- `run_count` increments by 1.
+
+---
+
+## Test 10 : persona precedence (Design focus on a payments screen)
+
+**Prompt:** "ui target, focus = Design & UX only, on a payments screen"
+
+**Expected routing:**
+- Target type: ui (candidate set includes Feature Strategist, Principal Designer, Accessibility, CRO/Brand as applicable).
+- Focus = Design & UX filters the set: Feature Strategist OFF (does not run under a Design & UX only focus).
+- Principal Designer, Accessibility ON (CRO/Brand if surface qualifies).
+- Security/Red-Team ON regardless (the always-on floor: payments screen touches payments).

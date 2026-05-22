@@ -66,7 +66,7 @@ Act as the domain expert. Write `.holy-grail/<slug>/01-brief.md`:
 
 - The why and the strategic intent.
 - Lead the brief with the section matching the Phase 0 focus: feature opportunities (New features or All), the design and conversion analysis (Design & UX), or the hardening and quality audit (Engineering health).
-- **Feature opportunities (the headline when New features or All is in focus).** Brainstorm the highest-leverage NET-NEW features and capability upgrades that would make the target dramatically more valuable, not just a nicer version of what exists. Rank by impact vs effort. For each: what it is, why it matters, rough effort, reversible or not, in-scope (auto-build) or user-challenge (park for the gate). Aim for at least 5 candidates before filtering. This is where most of the value is, do not shortcut it.
+- **Feature opportunities (the headline when New features or All is in focus).** Brainstorm the highest-leverage NET-NEW features and capability upgrades that would make the target dramatically more valuable, not just a nicer version of what exists. Rank by impact vs effort. For each: what it is, why it matters, rough effort, reversible or not, in-scope (auto-build) or user-challenge (park for the Phase 6 report). Aim for at least 5 candidates before filtering. This is where most of the value is, do not shortcut it.
 - The 10-star outcome, framed around the new capabilities the target would gain.
 - A north-star metric and a predicted improvement (you will check the prediction at Phase 7).
 - Measurable success criteria, each tied to the baseline, including the high-value features to be built this run.
@@ -82,7 +82,7 @@ Then:
 
 ### Phase 2 - Brainstorm and Plan
 
-- Spec: `Skill(superpowers:brainstorming)` on the brief in autonomous mode, or the fallback spec method. Override the skill's approval gate; you have one gate at Phase 6.
+- Spec: `Skill(superpowers:brainstorming)` on the brief in autonomous mode, or the fallback spec method. Override the skill's approval gate; you never block, and there is no gate at Phase 6 either (the run ends at a PR). Forks surface in the Phase 6 report.
 - Plan: `Skill(superpowers:writing-plans)`, or the fallback plan method. For non-code, an equivalent structured execution outline.
 - **Panel review of the plan**: code or product plans go through `Skill(autoplan)` if present; otherwise dispatch the parallel expert panel from `references/expert-panel.md` against the plan. For UI plans add `Skill(plan-design-review)` if present.
 - **Adversarial check**: `Skill(codex)` review or challenge on the plan, or the fallback red-team.
@@ -90,7 +90,7 @@ Then:
 
 ### Phase 3 - Build or Produce
 
-- **Build the high-value features first.** The brief's ranked feature opportunities that clear the value-vs-effort bar and are reversible are the main work of the build, not an afterthought. Build them. Park only genuinely large or strategic expansions (new product direction, pricing, spend, legal, irreversible) for the gate. Design and polish come after the capability is in.
+- **Build the high-value features first.** The brief's ranked feature opportunities that clear the value-vs-effort bar and are reversible are the main work of the build, not an afterthought. Build them. Park only genuinely large or strategic expansions (new product direction, pricing, spend, legal, irreversible) for the Phase 6 report. Design and polish come after the capability is in.
 - For UI or design targets, use the design and asset toolchain in `references/auto-decisions.md` section 3.5. If no `DESIGN.md` exists, establish the system first (`Skill(design-consultation)` or infer one). Explore variants (`Skill(design-shotgun)` if present, else 2 to 3 distinct directions) and converge on the strongest. Build distinctive UI with `Skill(frontend-design)` when present. Generate any needed visual assets with `Skill(nano-banana-pro)` or `Skill(higgsfield-generate)`. Pull designs via `Skill(figma)` if the input was Figma. Do not ship the first idea, and never ship a generic AI-slop UI.
 - For code: `Skill(superpowers:using-git-worktrees)` to isolate, then `Skill(superpowers:subagent-driven-development)` with `superpowers:test-driven-development`. If superpowers is absent, use the fallback subagent build loop. Fresh subagent per task, two-stage spec then quality review per task, test first.
 - For non-code: produce the artifact via focused per-section subagents, each reviewed.
