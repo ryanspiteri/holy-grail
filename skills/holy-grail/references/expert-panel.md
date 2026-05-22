@@ -29,8 +29,8 @@ Pull the personas that match the target type. Do not run personas that add no si
 
 | Target type | Always | Add if scope active |
 |---|---|---|
-| code (backend/logic) | Staff Engineer, Security/Red-Team, Performance | Domain SME |
-| ui | Principal Designer, Staff Engineer, Accessibility | CRO (if a conversion surface), Brand Copy (if it has copy) |
+| code (backend/logic) | Security/Red-Team, Performance | Domain SME, Staff Engineer (see complementary rule) |
+| ui | Principal Designer, Accessibility | CRO (if a conversion surface), Brand Copy (if it has copy), Staff Engineer (see complementary rule) |
 | copy | Brand Copy Chief, CRO, Product/CEO | Domain SME |
 | strategy | Strategy/Capital-Allocation, Product/CEO | Domain SME |
 | mixed | union of the above for each component | as applicable |
@@ -38,6 +38,16 @@ Pull the personas that match the target type. Do not run personas that add no si
 Product/CEO joins any Full or Epic run. Security/Red-Team always joins anything touching auth, payments, user data, or input handling, regardless of type.
 
 **Conversion surface (defines when CRO joins):** a page whose primary job is to get an anonymous or trial visitor to take a signup, purchase, or lead action. Landing, pricing, signup, and paywall pages are conversion surfaces. Authenticated app screens and dashboards are not, unless they contain an upgrade or checkout call to action.
+
+### Complementary to superpowers and codex (no duplicate code review)
+
+The panel reviews for excellence across every dimension. It does NOT re-do the code-correctness review that other tools already own.
+
+- **When superpowers and codex are present (the usual enhanced mode):** code correctness is reviewed by superpowers (the per-task spec + quality review during the build) and codex (the diff review with a PASS/FAIL gate). So the panel SKIPS the Staff Engineer correctness pass and runs only the lenses those two do not cover: Security/Red-Team abuse cases, Performance, Product, Accessibility, Domain, and Design for UI, plus the 0 to 10 excellence scoring that drives the improve loop.
+- **When superpowers and codex are both absent (pure fallback):** nothing else reviews the code, so the panel's Staff Engineer takes over code correctness using the internal red-team review in `fallbacks.md`.
+- **For non-code targets (design, copy, strategy):** superpowers and codex do not apply, so the panel is the entire review.
+
+In short: superpowers + codex own "is the code correct"; the panel owns "is this the best it can be across design, conversion, brand, strategy, performance, accessibility, security, and domain", and never pays for the same code review twice.
 
 ---
 

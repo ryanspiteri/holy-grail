@@ -94,7 +94,7 @@ Then:
 - `Skill(superpowers:requesting-code-review)` or the fallback internal review on the diff.
 - Independent second opinion: `Skill(codex)` review on the diff with a PASS or FAIL gate on P1 findings. Add `Skill(codex)` challenge for Epic or risky code. Fallback: the internal red-team review.
 - If UI scope is active: `Skill(design-review)`, `Skill(qa)`, `Skill(gstack)` screenshots and health score, or the design/QA fallback.
-- **Dispatch the expert panel** (parallel subagents per `references/expert-panel.md`) against the brief's success criteria, including the red-team / abuse-case persona for anything touching auth, payments, user data, or input. Each scores its dimensions 0 to 10.
+- **Dispatch the expert panel** (parallel subagents per `references/expert-panel.md`) against the brief's success criteria, including the red-team / abuse-case persona for anything touching auth, payments, user data, or input. Each scores its dimensions 0 to 10. The panel is complementary to the code review above: when superpowers and codex have already reviewed the code, the panel skips a duplicate correctness pass and contributes only the design, conversion, product, performance, accessibility, domain, and red-team lenses plus the scoring. If superpowers and codex are both absent, the panel's Staff Engineer owns code correctness. For non-code targets the panel is the whole review.
 - Log every finding to `.holy-grail/<slug>/findings.md` tagged with the reviewer that raised it. This feeds Phase 7.
 
 ### Phase 5 - Improve Loop (re-spec, rebuild, retest until it cannot be bettered)
