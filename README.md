@@ -10,7 +10,7 @@ No em-dashes anywhere. Built to act as the genuine expert in every field the tar
 
 A run moves through eight phases:
 
-0. **Ingest, recall, route, baseline** - accepts a description, a live URL, a screenshot, a file, or a Figma link. Captures the before-state. Loads past lessons. Classifies the target and right-sizes the effort.
+0. **Ingest, recall, route, baseline** - accepts a description, a live URL, a screenshot, a file, or a Figma link. Asks one question up front: what to focus on (new features / design and UX / engineering health / all of the above). Captures the before-state. Loads past lessons. Classifies the target and right-sizes the effort.
 1. **Strategy and the perfect brief** - states the why, the 10-star outcome, a north-star metric, benchmarks best-in-class, and gets a second opinion on the brief itself.
 2. **Brainstorm and plan** - turns the brief into a spec and a plan, then a panel of experts and an adversarial reviewer tear the plan apart before any code.
 3. **Build** - subagent-driven, one task at a time, test-first for code, variants explored for UI.

@@ -40,6 +40,19 @@ The **Product/Feature Strategist leads every code, ui, mixed, and product upgrad
 
 **Conversion surface (defines when CRO joins):** a page whose primary job is to get an anonymous or trial visitor to take a signup, purchase, or lead action. Landing, pricing, signup, and paywall pages are conversion surfaces. Authenticated app screens and dashboards are not, unless they contain an upgrade or checkout call to action.
 
+### Focus map (Phase 0 focus question filters the panel)
+
+The Phase 0 focus question scopes which personas run. Target type gives the candidate set; the chosen focus filters it. Security/Red-Team always runs for anything touching auth, payments, user data, or input, regardless of focus (safety floor).
+
+| Focus chosen | Personas that run |
+|---|---|
+| New features | Product/Feature Strategist (lead), Domain SME, plus Staff Engineer for correctness of what gets built |
+| Design & UX | Principal Designer, Accessibility, CRO (if a conversion surface), Brand Copy (if it has copy) |
+| Engineering health | Security/Red-Team, Performance, Staff Engineer (quality + correctness) |
+| All of the above | the full activated set for the target type, led by the Product/Feature Strategist |
+
+The brief leads with the section matching the focus: feature opportunities for New features or All, the design/conversion analysis for Design & UX, the hardening/quality audit for Engineering health.
+
 ### Complementary to superpowers and codex (no duplicate code review)
 
 The panel reviews for excellence across every dimension. It does NOT re-do the code-correctness review that other tools already own.

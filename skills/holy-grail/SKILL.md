@@ -51,7 +51,12 @@ Read `references/auto-decisions.md` for the ingestion matrix, routing, intensity
 2. **Ingest by modality** (auto-decisions.md ingestion matrix): a live URL is opened and screenshotted via `Skill(browse)` or `Skill(gstack)`, then mapped to its source component; a screenshot/image is read visually; a file/folder path is read; a Figma link goes through `Skill(figma)`; a plain description proceeds. The input is the baseline.
 3. **Recall**: read `references/playbook.md` (the runtime self-learning file). If it does not exist yet, copy `references/playbook.seed.md` to `references/playbook.md` first, then read it. If ruflo is present, also `mcp__ruflo__memory_search` (project namespace then global) and scan the project auto-memory. State out loud which past lessons you are applying this run.
 4. **Capability check**: read `~/.holy-grail/capabilities.json` (run `scripts/bootstrap.sh` with no flag to build it if missing or stale; detection is read-only). Decide native-vs-fallback per step. Say the mode in one line. If a dependency is missing, do NOT install it mid-task: tell the user to run `bash install.sh` (or `scripts/bootstrap.sh --install-deps`), which installs superpowers + gstack + codex CLI, then proceed with fallbacks for this run.
-5. If the target is genuinely ambiguous (for example "upgrade the app" with no link or screenshot), ask exactly ONE scoping question. Otherwise proceed.
+5. **Ask the focus question (the one up-front question, every run).** Use a multi-select `AskUserQuestion`: "What should this upgrade focus on?"
+   - **New features** : net-new capabilities and feature improvements
+   - **Design & UX** : visual design, layout, polish, conversion, copy
+   - **Engineering health** : security, bug fixes, code quality, performance, tests
+   - **All of the above** : full-spectrum upgrade
+   The selection drives which expert-panel personas activate and which brief sections lead (see `references/expert-panel.md` focus map). "New features" or "All of the above" keeps the features-first ordering; choosing only Design & UX means design is the chosen focus for this run; "All of the above" runs the full panel. Skip this question only if the user already named the focus in their request (for example "fix the bugs in X", "make X more secure", "redesign X") and use that. If the target itself is also missing, ask for it in the same call (still one prompt).
 6. **Route**: classify the target (code / ui / copy / strategy / mixed) and run the UI and DX scope detection. Select the phases and reviewers that apply.
 7. **Intensity**: set Deep, Full, or Epic per auto-decisions.md. The floor is always thorough.
 8. **Baseline**: write `.holy-grail/<slug>/baseline.md` with current metrics, test results, screenshots, the source map, and the artifact as-is. For brand-facing targets load the brand voice, `DESIGN.md` if present, and the anti-slop rules.
@@ -61,7 +66,8 @@ Read `references/auto-decisions.md` for the ingestion matrix, routing, intensity
 Act as the domain expert. Write `.holy-grail/<slug>/01-brief.md`:
 
 - The why and the strategic intent.
-- **Feature opportunities (the headline of the brief, lead with these).** Brainstorm the highest-leverage NET-NEW features and capability upgrades that would make the target dramatically more valuable, not just a nicer version of what exists. Rank by impact vs effort. For each: what it is, why it matters, rough effort, reversible or not, in-scope (auto-build) or user-challenge (park for the gate). Aim for at least 5 candidates before filtering. This is where most of the value is, do not shortcut it.
+- Lead the brief with the section matching the Phase 0 focus: feature opportunities (New features or All), the design and conversion analysis (Design & UX), or the hardening and quality audit (Engineering health).
+- **Feature opportunities (the headline when New features or All is in focus).** Brainstorm the highest-leverage NET-NEW features and capability upgrades that would make the target dramatically more valuable, not just a nicer version of what exists. Rank by impact vs effort. For each: what it is, why it matters, rough effort, reversible or not, in-scope (auto-build) or user-challenge (park for the gate). Aim for at least 5 candidates before filtering. This is where most of the value is, do not shortcut it.
 - The 10-star outcome, framed around the new capabilities the target would gain.
 - A north-star metric and a predicted improvement (you will check the prediction at Phase 7).
 - Measurable success criteria, each tied to the baseline, including the high-value features to be built this run.
@@ -135,7 +141,7 @@ Dispatch a retro subagent that reads `findings.md` and the brief, then:
 
 ## Autonomy and the single gate
 
-Run autonomous. Override the intermediate approval gates inside brainstorming and writing-plans. Auto-decide mechanical and taste forks via the 6 principles in `references/auto-decisions.md`, logging each in `state.md`. Auto-build feature improvements that clear the value-vs-effort bar and are reversible. Park only user-challenge forks (new product direction, real spend, pricing or positioning, legal or compliance, irreversible) for the Phase 6 gate, or ask the single Phase 0 scoping question if one blocks starting.
+Run autonomous with exactly one up-front question and one gate. The up-front question is the Phase 0 focus question (features / design / engineering health / all). After that, override the intermediate approval gates inside brainstorming and writing-plans. Auto-decide mechanical and taste forks via the 6 principles in `references/auto-decisions.md`, logging each in `state.md`. Auto-build feature improvements that clear the value-vs-effort bar and are reversible. Park only user-challenge forks (new product direction, real spend, pricing or positioning, legal or compliance, irreversible) for the Phase 6 gate.
 
 ## Red flags (rationalizations that mean stop)
 
