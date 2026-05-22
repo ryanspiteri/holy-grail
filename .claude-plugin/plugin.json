@@ -1,0 +1,18 @@
+{
+  "name": "holy-grail",
+  "description": "One-shot upgrade-anything pipeline. Say 'upgrade X' and it writes the perfect brief, plans it, builds it with subagents, reviews it with a panel of expert agents and an adversarial second opinion, improves until world-class, and self-learns every run. Works on code, UI, copy, and strategy. Self-contained with built-in fallbacks; uses superpowers/codex/gstack when present.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Ryan Spiteri"
+  },
+  "license": "MIT",
+  "keywords": [
+    "upgrade",
+    "improve",
+    "orchestration",
+    "self-improving",
+    "review",
+    "quality",
+    "agents"
+  ]
+}
