@@ -16,15 +16,15 @@
 
 ## File responsibilities after v2
 
-- `skills/holy-grail/SKILL.md` — spine: fire-and-forget autonomy, 8 phases (Phase 5 = main + 3 rounds + final check), slim Operating Principles, slim Core Invariants (safety floors only), red-flags, frontmatter. References everything else; stays under 500 lines.
-- `skills/holy-grail/references/auto-decisions.md` — routing brain: ingestion, classification, scope detection, intensity, capability map, the 6 principles, the SINGLE definition of park/build + the value-vs-effort bar, quality bars, multi-repo, subagent budgets, propose-only, blast-radius cap, proof split.
-- `skills/holy-grail/references/expert-panel.md` — persona roster + the stated precedence chain + self-assessed labeling + dispatch template + rubric.
-- `skills/holy-grail/references/playbook.seed.md` — lesson schema (`trigger`, `scope`, `count`, `confidence`, `last_confirmed_run`), the run counter, the Always-apply block, and the how-to-use rules (trigger retrieval, merge-before-append, promote, decay).
-- `skills/holy-grail/references/run-state.md` — NEW: `state.md` schema + when written, `outcomes.md` schema, the finish protocol (PR + notify + exit), resume.
-- `skills/holy-grail/references/fallbacks.md` — note the codex_cli vs codex_auth distinction.
-- `scripts/bootstrap.sh`, `install.sh` — robustness fixes.
-- `.claude-plugin/plugin.json`, `README.md` — description sync.
-- `skills/holy-grail/tests/test-prompts.md` — routing/behavior validation cases.
+- `skills/holy-grail/SKILL.md`: spine: fire-and-forget autonomy, 8 phases (Phase 5 = main + 3 rounds + final check), slim Operating Principles, slim Core Invariants (safety floors only), red-flags, frontmatter. References everything else; stays under 500 lines.
+- `skills/holy-grail/references/auto-decisions.md`: routing brain: ingestion, classification, scope detection, intensity, capability map, the 6 principles, the SINGLE definition of park/build + the value-vs-effort bar, quality bars, multi-repo, subagent budgets, propose-only, blast-radius cap, proof split.
+- `skills/holy-grail/references/expert-panel.md`: persona roster + the stated precedence chain + self-assessed labeling + dispatch template + rubric.
+- `skills/holy-grail/references/playbook.seed.md`: lesson schema (`trigger`, `scope`, `count`, `confidence`, `last_confirmed_run`), the run counter, the Always-apply block, and the how-to-use rules (trigger retrieval, merge-before-append, promote, decay).
+- `skills/holy-grail/references/run-state.md`: NEW: `state.md` schema + when written, `outcomes.md` schema, the finish protocol (PR + notify + exit), resume.
+- `skills/holy-grail/references/fallbacks.md`: note the codex_cli vs codex_auth distinction.
+- `scripts/bootstrap.sh`, `install.sh`: robustness fixes.
+- `.claude-plugin/plugin.json`, `README.md`: description sync.
+- `skills/holy-grail/tests/test-prompts.md`: routing/behavior validation cases.
 
 ---
 
@@ -38,7 +38,7 @@
 - [ ] **Step 3: add a run counter** as the first content line: `run_count: 0` (incremented every Phase 7).
 - [ ] **Step 4: add an "Always-apply" section** above the trigger-indexed lessons, seeded with one promoted universal lesson: "On any diff with an irreversible external action, money, or access control, run the adversarial reviewer hard and iteratively (including on the plan) until it returns SHIP." (trigger: `irreversible-or-access-control-or-money`, scope: universal, confidence: high, count: 3).
 - [ ] **Step 5: rewrite "How to use this file"** to specify: Phase 0 retrieval = Always-apply block + up to 8 lessons whose `trigger` matches the run's conditions, ranked by confidence then count; Phase 7 = merge-before-append (same trigger + corrective action increments count, appends evidence, bumps confidence, sets last_confirmed_run; only append when no match), promote at count>=3 into the Always-apply block + Changelog (verify it appears), decay when `run_count - last_confirmed_run > 10 && confidence: low`.
-- [ ] **Step 6 (GREEN): re-run assertions.** `grep -c "trigger:" ...` >= 2; `grep -ci "always-apply" ...` >= 1; `grep -c "run_count:" ...` == 1. No em-dashes: `grep -c $'—' skills/holy-grail/references/playbook.seed.md` == 0.
+- [ ] **Step 6 (GREEN): re-run assertions.** `grep -c "trigger:" ...` >= 2; `grep -ci "always-apply" ...` >= 1; `grep -c "run_count:" ...` == 1. No em-dashes: `grep -cP '\x{2014}' skills/holy-grail/references/playbook.seed.md` == 0.
 - [ ] **Step 7: Commit.** `git add -A && git commit -m "feat(playbook): trigger-indexed schema + merge/promote/decay + run counter"`
 
 ### Task 2: Cross-project memory split (auto-decisions.md + SKILL Phase 0/7)
@@ -152,7 +152,7 @@
 **Files:**
 - Modify: `skills/holy-grail/references/playbook.md` (machine-local, not pushed)
 
-- [ ] **Step 1 (RED):** `grep -c $'—' skills/holy-grail/references/playbook.md` → expect > 0 (em-dashes present); 3 separate adversarial/security singletons present; no `trigger:`/`run_count:` fields.
+- [ ] **Step 1 (RED):** `grep -cP '\x{2014}' skills/holy-grail/references/playbook.md` → expect > 0 (em-dashes present); 3 separate adversarial/security singletons present; no `trigger:`/`run_count:` fields.
 - [ ] **Step 2: migrate existing entries** to the Task 1 schema (add `trigger`, `scope`, `last_confirmed_run`); add `run_count` reflecting actual runs so far (estimate from entries, e.g. 5).
 - [ ] **Step 3: backfill-merge** the three singletons (codex-iterate-to-SHIP, red-team-access-control, panel-on-the-plan-for-money) into one promoted Always-apply lesson with count >= 3; remove the three originals.
 - [ ] **Step 4: remove all em-dashes** from playbook.md.
@@ -180,7 +180,7 @@
 
 - [ ] **Step 1: add test cases** to test-prompts.md: (a) cross-project routing (a non-NewU stack target routes generically), (b) propose-only (stops after plan), (c) multi-repo (N PRs), (d) fire-and-forget finish (ends at PR + notify, no blocking gate), (e) self-learning merge (a repeat-trigger run increments count, no duplicate), (f) persona precedence (Design-only focus excludes Feature Strategist; payments screen includes Security).
 - [ ] **Step 2 (RED->GREEN): dispatch the validation subagent**: it reads the full v2 skill + all test-prompts (original 4 + the 6 new) and reports MATCH/MISMATCH for each, plus a harsh check for any NEW contradiction introduced. Fix any MISMATCH inline and re-dispatch until all GREEN.
-- [ ] **Step 3: final lint sweep**: `grep -rn $'—' .` across shipped files == 0; `wc -l skills/holy-grail/SKILL.md` < 500; `bash -n scripts/bootstrap.sh install.sh` pass; plugin.json valid JSON.
+- [ ] **Step 3: final lint sweep**: `grep -rnP '\x{2014}' .` across shipped files == 0; `wc -l skills/holy-grail/SKILL.md` < 500; `bash -n scripts/bootstrap.sh install.sh` pass; plugin.json valid JSON.
 - [ ] **Step 4: Commit + push.** `-m "test: v2 validation cases + final gauntlet (all routing GREEN)"` then `git push origin main`.
 - [ ] **Step 5: final cluster review**: dispatch one code-reviewer subagent across the whole v2 diff (`git diff <pre-v2-sha> HEAD`) for any remaining contradiction, overclaim, or broken reference. Fix Critical/Important, re-verify, push.
 
@@ -188,7 +188,7 @@
 
 ## Self-review (writing-plans)
 
-- **Spec coverage:** every spec subsystem maps to a task — self-learning loop (T1) + cross-project split (T2) + run-state (T3) + autonomy/cadence (T4) + honesty (T5) + persona precedence (T6) + de-dup/parallel/conditional-panel (T7) + observability/multi-repo/propose-only/blast-radius (T8) + bootstrap (T9) + runtime backfill (T10) + docs (T11) + validation (T12). No gaps.
+- **Spec coverage:** every spec subsystem maps to a task: self-learning loop (T1) + cross-project split (T2) + run-state (T3) + autonomy/cadence (T4) + honesty (T5) + persona precedence (T6) + de-dup/parallel/conditional-panel (T7) + observability/multi-repo/propose-only/blast-radius (T8) + bootstrap (T9) + runtime backfill (T10) + docs (T11) + validation (T12). No gaps.
 - **Placeholder scan:** verification steps use concrete grep/bash/wc commands; content lives in the spec. The one soft spot (gstack clone pin "if resolvable") is intentionally conditional because the ref may not exist; the fallback (note the risk) is specified.
 - **Type consistency:** field names are consistent across T1/T2/T10 (`trigger`, `scope`, `count`, `confidence`, `last_confirmed_run`, `run_count`); `state.md`/`outcomes.md` schemas defined once in T3 and referenced in T4/T8.
 - **Ordering:** schema (T1) before the runtime migration that uses it (T10); single park/build home (T7) before docs sync (T11); validation last (T12).
