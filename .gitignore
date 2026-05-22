@@ -1,3 +1,6 @@
 .holy-grail/
 *.log
 .DS_Store
+
+# runtime self-learning file (per-machine, never shared)
+skills/holy-grail/references/playbook.md

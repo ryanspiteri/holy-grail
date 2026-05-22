@@ -22,7 +22,7 @@ If two modalities arrive together (a URL plus a screenshot), use both: the scree
 
 Goal: turn a page the user points at into the files you can actually edit.
 
-1. Identify the app and router. For the NewU portal the React routes live in `newu.portal/src/routes/` and screens in `newu.portal/src/screens/<area>/`. For other repos, find the router config (search `createBrowserRouter`, `<Route`, `router`, `pages/`, `app/`).
+1. Identify the app and router. Find the router config (search `createBrowserRouter`, `<Route`, `router`, `pages/`, `app/`) and the convention for where screens or pages live (commonly `src/routes/`, `src/screens/`, `src/pages/`, or `app/`).
 2. Match the URL path to the route element, then to the screen/page component.
 3. Trace the component's data layer: the API endpoint, GraphQL resolver/mutation, and model it touches. Record these in `baseline.md` as the edit surface.
 4. If the URL is production and the repo is local, confirm the local code is the same version (git branch, last deploy) before editing.

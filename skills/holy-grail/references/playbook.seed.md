@@ -1,8 +1,10 @@
-# playbook.md
+# playbook.seed.md (shipped template)
 
-The self-learning memory of holy-grail. This file is READ at Phase 0 (load applicable lessons, state which you are applying) and WRITTEN at Phase 7 (append what this run taught). It is the reason the skill gets sharper every run. No em-dashes in output.
+This is the SEED. On first run, holy-grail copies it to `playbook.md` (which is gitignored) and writes all learnings there. That keeps each machine's lessons local, so private, business-specific learnings never get committed or pushed, even from a public repo.
 
-This is a living file. It ships with generic starter lessons. Each install grows its own.
+The runtime `playbook.md` is the self-learning memory: READ at Phase 0 (load applicable lessons, state which you are applying) and WRITTEN at Phase 7 (append what this run taught). It is the reason the skill gets sharper every run. No em-dashes in output.
+
+This seed ships with generic starter lessons. Each install grows its own runtime copy. To share a genuinely generic lesson with everyone, add it here in the seed and commit it.
 
 ---
 
