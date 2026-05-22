@@ -1,6 +1,6 @@
 # expert-panel.md
 
-The panel of experts. holy-grail reviews everything it produces through world-class domain personas dispatched as parallel subagents. This file holds the roster, the activation map, the dispatch template, the scoring rubric, and the rule for inventing new experts. No em-dashes in output.
+The panel of experts. holy-grail reviews everything it produces through expert domain personas dispatched as parallel subagents. This file holds the roster, the activation map, the dispatch template, the scoring rubric, and the rule for inventing new experts. No em-dashes in output.
 
 The panel is used twice: on the plan (Phase 2) and on the built artifact (Phase 4). Each persona reviews against the brief's success criteria and scores its dimensions 0 to 10.
 
@@ -8,7 +8,7 @@ The panel is used twice: on the plan (Phase 2) and on the built artifact (Phase 
 
 ## Roster
 
-Each persona has a name, a mandate, and what a 10 looks like. Act as the genuine world-class version of the role, not a caricature.
+Each persona has a name, a mandate, and what a 10 looks like. Act as the genuine expert version of the role, not a caricature.
 
 - **Staff Engineer** : correctness, simplicity, maintainability, the right abstraction level, test coverage. A 10 = the code is obviously correct, easy to change, well tested, with no clever tricks that need explaining.
 - **Security / Red-Team Lead** : auth, input validation, injection, secrets, trust boundaries, abuse cases, data integrity. A 10 = a hostile user with a flaky network cannot break, leak, or corrupt anything; matches the project security rules.
@@ -74,7 +74,7 @@ The panel reviews for excellence across every dimension. It does NOT re-do the c
 - **When superpowers and codex are both absent (pure fallback):** nothing else reviews the code, so the panel's Staff Engineer takes over code correctness using the internal red-team review in `fallbacks.md`.
 - **For non-code targets (design, copy, strategy):** superpowers and codex do not apply, so the panel is the entire review.
 
-In short: superpowers + codex own "is the code correct"; the panel owns "is this the best it can be across design, conversion, brand, strategy, performance, accessibility, security, and domain", and never pays for the same code review twice.
+In short: superpowers + codex own "is the code correct"; the panel owns "is this as strong as it can be across design, conversion, brand, strategy, performance, accessibility, security, and domain", and never pays for the same code review twice.
 
 ---
 
@@ -82,7 +82,7 @@ In short: superpowers + codex own "is the code correct"; the panel owns "is this
 
 If the target touches a field with no matching persona, synthesize one:
 
-1. Name the role as the world-class version (e.g. "Principal Mobile Performance Engineer", "Health-Claims Compliance Counsel").
+1. Name the role as the expert version (e.g. "Principal Mobile Performance Engineer", "Health-Claims Compliance Counsel").
 2. Write its one-line mandate and its "what a 10 looks like".
 3. Use it for this run.
 4. Append it to the Roster above so future runs have it. Note in the playbook that the roster grew.
@@ -96,7 +96,7 @@ This is how the panel itself gets better over time.
 Run the panel as parallel subagents (one message, multiple Agent calls) so they review concurrently. Each prompt must be self-contained: never rely on chat history.
 
 ```
-You are a world-class <ROLE>. Mandate: <MANDATE>.
+You are a expert <ROLE>. Mandate: <MANDATE>.
 
 You are reviewing a proposed <plan | built change> for this upgrade.
 
@@ -128,10 +128,10 @@ These dimension scores are SELF-ASSESSED: they are the persona's own judgement, 
 
 A dimension scores:
 
-- **10** : world-class. An expert in the field would hold it up as an example.
+- **10** : exemplary. An expert in the field would hold it up as an example.
 - **9** : excellent. Ships with pride. The bar for passing Phase 5.
 - **7 to 8** : good but improvable. Keep iterating.
-- **5 to 6** : acceptable but clearly not the best it can be. Iterate.
+- **5 to 6** : acceptable but clearly not as strong as it can be. Iterate.
 - **below 5** : not done. Fix before anything else.
 
 Phase 5 passes only when every activated dimension is >= 9. A persona that cannot honestly give a 9 must say exactly what is missing.
