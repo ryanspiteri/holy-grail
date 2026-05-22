@@ -95,6 +95,24 @@ State the mode in the announce line, e.g. "running enhanced (superpowers + codex
 
 ---
 
+## 3.5 Design and asset toolchain
+
+For ui, design, and brand-facing targets, use these when available (detected at runtime by whether the skill or tool is in your list). The fallback for all of them is the Principal Designer persona plus the browser. Never ship a generic AI-slop UI even in pure fallback mode.
+
+| Need | Tool (use if present) | Fallback |
+|---|---|---|
+| Establish a design system, or no `DESIGN.md` exists | `design-consultation` | infer the system from the existing UI, write a short `DESIGN.md` |
+| Explore visual directions before building | `design-shotgun` | produce 2 to 3 distinct directions yourself, screenshot each, pick the strongest |
+| Build distinctive, non-generic UI code | `frontend-design` | Principal Designer + Staff Engineer personas, hand-written components, no default library look |
+| Pull or push Figma designs | `figma` skills | read the supplied screenshot or spec instead |
+| Generate or edit visual assets (icons, hero images, illustrations, OG images, backgrounds) | `nano-banana-pro` or `higgsfield-generate` | use an existing asset or a CSS/SVG treatment, never fake it with stretched stock |
+| Plan-stage design critique | `plan-design-review` | the Principal Designer persona reviews the plan (Phase 2) |
+| Built-UI visual critique | `design-review` + `qa` | the design and QA fallback in `references/fallbacks.md` |
+
+Hard rule for any ui target: a custom palette, intentional 4/8px spacing, one clear focal point, distinctive typography, no purple-gradient-on-white, no default Inter-on-white. If a `DESIGN.md` exists it is the source of truth and overrides personal taste.
+
+---
+
 ## 4. The 6 auto-decision principles
 
 When a fork appears mid-run and it is not a genuine taste or strategy call, decide it yourself using these, log the decision in `state.md`, and keep moving. Only stop at Phase 6.

@@ -76,13 +76,13 @@ Then:
 
 - Spec: `Skill(superpowers:brainstorming)` on the brief in autonomous mode, or the fallback spec method. Override the skill's approval gate; you have one gate at Phase 6.
 - Plan: `Skill(superpowers:writing-plans)`, or the fallback plan method. For non-code, an equivalent structured execution outline.
-- **Panel review of the plan**: code or product plans go through `Skill(autoplan)` if present; otherwise dispatch the parallel expert panel from `references/expert-panel.md` against the plan.
+- **Panel review of the plan**: code or product plans go through `Skill(autoplan)` if present; otherwise dispatch the parallel expert panel from `references/expert-panel.md` against the plan. For UI plans add `Skill(plan-design-review)` if present.
 - **Adversarial check**: `Skill(codex)` review or challenge on the plan, or the fallback red-team.
 - Revise the plan. Collect any genuine taste or strategy forks for Phase 6.
 
 ### Phase 3 - Build or Produce
 
-- For UI or design targets, first explore variants (`Skill(design-shotgun)` if present, else 2 to 3 distinct directions) and converge on the strongest. Do not ship the first idea.
+- For UI or design targets, use the design and asset toolchain in `references/auto-decisions.md` section 3.5. If no `DESIGN.md` exists, establish the system first (`Skill(design-consultation)` or infer one). Explore variants (`Skill(design-shotgun)` if present, else 2 to 3 distinct directions) and converge on the strongest. Build distinctive UI with `Skill(frontend-design)` when present. Generate any needed visual assets with `Skill(nano-banana-pro)` or `Skill(higgsfield-generate)`. Pull designs via `Skill(figma)` if the input was Figma. Do not ship the first idea, and never ship a generic AI-slop UI.
 - For code: `Skill(superpowers:using-git-worktrees)` to isolate, then `Skill(superpowers:subagent-driven-development)` with `superpowers:test-driven-development`. If superpowers is absent, use the fallback subagent build loop. Fresh subagent per task, two-stage spec then quality review per task, test first.
 - For non-code: produce the artifact via focused per-section subagents, each reviewed.
 - One task at a time. Never batch. Re-check after every change.
