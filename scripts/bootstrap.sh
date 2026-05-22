@@ -35,18 +35,18 @@ detect() {
   GSTACK=0
   [ -d "${GSTACK_DIR}" ] && GSTACK=1
 
-  CODEX=0
-  if have codex || [ -f "${HOME}/.codex/auth.json" ] || [ -n "${OPENAI_API_KEY:-}${CODEX_API_KEY:-}" ]; then CODEX=1; fi
+  # The skill invokes the codex CLI, so the usable flag requires BOTH the CLI and auth.
   CODEX_CLI=0; have codex && CODEX_CLI=1
   CODEX_AUTH=0; { [ -f "${HOME}/.codex/auth.json" ] || [ -n "${OPENAI_API_KEY:-}${CODEX_API_KEY:-}" ]; } && CODEX_AUTH=1
+  CODEX=0; [ "${CODEX_CLI}" = "1" ] && [ "${CODEX_AUTH}" = "1" ] && CODEX=1
 
   BROWSER=0
   if [ "${GSTACK}" = "1" ] || have google-chrome || have chromium || have chromium-browser \
     || [ -d "/Applications/Google Chrome.app" ] || [ -d "/Applications/Chromium.app" ]; then BROWSER=1; fi
 
   RUFLO=0
-  if have ruflo || [ -f "${PWD}/.swarm/memory.db" ] \
-    || grep -qs "ruflo" "${HOME}/.claude.json" "${HOME}/.claude/settings.json" "${HOME}/.claude/.mcp.json" "${PWD}/.mcp.json" \
+  if have ruflo \
+    || grep -qs "ruflo" "${HOME}/.claude.json" "${HOME}/.claude/settings.json" "${HOME}/.claude/.mcp.json" \
     || grep -q "ruflo" "${PLUGINS_DIR}/installed_plugins.json" 2>/dev/null; then RUFLO=1; fi
 
   GIT=0; have git && GIT=1
@@ -73,11 +73,17 @@ if [ "${INSTALL_DEPS}" = "1" ]; then
   if [ "${GSTACK}" = "0" ]; then
     if have git; then
       _TMP="$(mktemp -d)"
+      # NOTE: --depth 1 clones unpinned HEAD (no tag/commit pin) - known supply-chain note.
       if git clone --depth 1 https://github.com/garrytan/gstack.git "${_TMP}/gstack" >/dev/null 2>&1; then
         mkdir -p "${SKILLS_DIR}"
         mv "${_TMP}/gstack" "${GSTACK_DIR}"
         if [ -x "${GSTACK_DIR}/setup" ]; then
-          ( cd "${GSTACK_DIR}" && ./setup >/dev/null 2>&1 ) && note "gstack: installed + setup ran" || note "gstack: cloned, but ./setup failed - run 'cd ${GSTACK_DIR} && ./setup'"
+          # stdin from /dev/null + timeout so an interactive prompt cannot hang the installer.
+          if have timeout; then
+            ( cd "${GSTACK_DIR}" && timeout 300 ./setup </dev/null >/dev/null 2>&1 ) && note "gstack: installed + setup ran" || note "gstack: cloned, but ./setup failed - run 'cd ${GSTACK_DIR} && ./setup'"
+          else
+            ( cd "${GSTACK_DIR}" && ./setup </dev/null >/dev/null 2>&1 ) && note "gstack: installed + setup ran" || note "gstack: cloned, but ./setup failed - run 'cd ${GSTACK_DIR} && ./setup'"
+          fi
         else
           note "gstack: cloned (no setup script found)"
         fi

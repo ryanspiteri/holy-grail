@@ -1,6 +1,6 @@
 {
   "name": "holy-grail",
-  "description": "One-shot upgrade-anything pipeline. Say 'upgrade X' and it writes the perfect brief, plans it, builds it with subagents, reviews it with a panel of expert agents and an adversarial second opinion, improves until world-class, and self-learns every run. Works on code, UI, copy, and strategy. Self-contained with built-in fallbacks; uses superpowers/codex/gstack when present.",
+  "description": "Fire-and-forget upgrade-anything skill. Say 'upgrade X', answer one focus question, then it runs unattended: writes the brief, plans it, builds it with subagents, adds net-new features, tests, and reviews with an expert panel plus an adversarial second opinion, improving over a main pass and several rounds. Ends at a PR (never auto-merges) and self-learns every run. Works on code, UI, copy, and strategy. Self-contained with built-in fallbacks; uses superpowers/codex/gstack when present.",
   "version": "1.0.0",
   "author": {
     "name": "Ryan Spiteri"

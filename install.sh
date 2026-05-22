@@ -39,3 +39,17 @@ bash "${REPO_DIR}/scripts/bootstrap.sh" --install-deps
 echo ""
 echo "done. Start a new Claude Code session, then say: upgrade <something>"
 echo "(If codex was just installed, run 'codex login' once to activate the codex review.)"
+
+# --- truthful finish: read back the capability map and report the real mode ---
+CAP_FILE="${HOME}/.holy-grail/capabilities.json"
+sp_active=0; cx_active=0
+if [ -f "${CAP_FILE}" ]; then
+  grep -q '"superpowers": true' "${CAP_FILE}" && sp_active=1
+  grep -q '"codex": true' "${CAP_FILE}" && cx_active=1
+fi
+echo ""
+if [ "${sp_active}" = "1" ] && [ "${cx_active}" = "1" ]; then
+  echo "MODE: enhanced"
+else
+  echo "MODE: FALLBACK (superpowers and/or codex not active; holy-grail will use built-in fallbacks). Run /plugin install superpowers@claude-plugins-official and/or codex login to enable enhanced mode."
+fi

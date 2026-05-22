@@ -2,7 +2,7 @@
 
 The one-shot "upgrade anything" skill for Claude Code.
 
-Say **"upgrade X"** (a feature, a page, a codebase, copy, a design, a strategy) and holy-grail runs a complete, expert-grade improvement pipeline end to end, in one shot, without rushing. It writes the perfect brief, plans it, builds it with subagents, reviews it through a panel of world-class expert agents plus an adversarial second opinion, improves until it is the best it can be, ships it, and learns from the run so the next one is sharper.
+Say **"upgrade X"** (a feature, a page, a codebase, copy, a design, a strategy) and holy-grail runs a complete, expert-grade improvement pipeline end to end. It is fire-and-forget: it asks one focus question up front, then runs unattended. It writes the brief, plans it, builds it with subagents, adds net-new features, reviews it through a panel of expert agents plus an adversarial second opinion, improves over a main pass and several rounds, ends at a PR, and learns from the run so the next one is sharper.
 
 No em-dashes anywhere. Built to act as the genuine expert in every field the target touches.
 
@@ -15,13 +15,15 @@ A run moves through eight phases:
 2. **Brainstorm and plan** - turns the brief into a spec and a plan, then a panel of experts and an adversarial reviewer tear the plan apart before any code.
 3. **Build** - subagent-driven, one task at a time, test-first for code, variants explored for UI.
 4. **Verify and review** - tests and build pass for real, an independent reviewer checks the diff, and the expert panel scores every dimension 0 to 10, including a red-team pass.
-5. **Improve loop** - not just fixing defects. Each round the panel names the highest-leverage improvement, the skill folds it back into the brief (re-spec), re-plans it, rebuilds it test-first, and re-verifies. It keeps raising the ceiling until the work is both correct (tests green, second opinion passes) and excellent (every dimension at least 9 out of 10 and no worthwhile improvement remains), not merely passing.
-6. **Final gate and finish** - a one-page report (before/after, evidence, the calls it auto-made so you can override), one approval, then ship and prove it on the live surface with before/after screenshots.
+5. **Improve loop** - a main pass followed by three improvement rounds and a final check. Not just fixing defects: each round the panel names the highest-leverage improvement and the skill adds it (often a net-new feature), folding it back into the brief (re-spec), re-planning, rebuilding test-first, and re-verifying. It keeps raising the ceiling until the work is both correct (tests green, second opinion passes) and excellent (every dimension at least 9 out of 10 and no worthwhile improvement remains).
+6. **Finish at a PR** - opens a pull request with a one-page report (before/after, evidence, the calls it auto-made so you can override) and sends a Telegram notification. The human merges asynchronously. It never auto-merges.
 7. **Self-learning retro** - records what worked, which reviewers earned their keep, and grows its own playbook and expert roster.
 
 ## How it learns
 
-The model's weights do not change. holy-grail keeps a durable, structured memory in `skills/holy-grail/references/playbook.md` that it reads at the start of every run and appends to at the end. It compares what it predicted against what actually happened, learns which reviewers add signal for which kinds of target, and promotes recurring lessons into the skill itself. See the playbook for the format.
+The model's weights do not change. holy-grail keeps a durable, structured memory in `skills/holy-grail/references/playbook.md` that it reads at the start of every run and appends to at the end. It compares what it predicted against what actually happened, learns which reviewers add signal for which kinds of target, and promotes recurring lessons into the skill itself.
+
+The playbook is per-machine. The runtime `playbook.md` is created from `playbook.seed.md` on first run, so a freshly-cloned teammate will not see `playbook.md` until their first run; they start from the seed. Lessons are split by scope: universal lessons go in the playbook, and project-specific lessons go in each repo's `.holy-grail/project.md`. See the seed for the format.
 
 ## Install (for a teammate)
 
